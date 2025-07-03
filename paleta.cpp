@@ -26,6 +26,14 @@ class Paleta
             valores = valores1;
         }
 
-        ler_arquivo()
+        void ler_arquivo()
+        {
+
+        }
+
+        Cor consulta_cor()
+        {
+            
+        }
 
 };
