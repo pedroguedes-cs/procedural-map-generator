@@ -31,9 +31,22 @@ class Paleta
 
         }
 
-        Cor consulta_cor()
+        Cor consulta_cor(double valor)
         {
-            
+            // Varificação
+            if (valores[0] > valor)
+            {
+                return cores[0];
+            }
+
+            for (int i = 0; i < quantidade; i++)
+            {
+                if (valores[i] > valor)
+                {
+                    return cores[i-1];
+                }
+            }
+            return cores[quantidade];
         }
 
 };
