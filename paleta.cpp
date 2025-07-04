@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <string>
 using namespace std;
 
 struct Cor
@@ -19,6 +20,13 @@ class Paleta
 
     //Operações
     public:
+        Paleta()
+        {
+            quantidade = 0;
+            cores = {};
+            valores = {};
+        }
+
         Paleta (int quantidade1, vector<Cor> cores1, vector<double> valores1)
         {
             quantidade = quantidade1;
@@ -26,9 +34,31 @@ class Paleta
             valores = valores1;
         }
 
-        void ler_arquivo()
+        Paleta ler_arquivo(string nome_arquivo)
         {
+            ifstream arquivo(nome_arquivo);
 
+             Paleta paleta;
+
+            if (arquivo.is_open() == false)
+            {
+                return paleta;
+            }
+            else
+            {
+                arquivo >> paleta.quantidade;
+
+                double valor_cor;
+                int r1, g1, b1;
+
+                while (arquivo >> valor_cor >> r1 >> g1 >> b1)
+                {
+                    paleta.valores.push_back(valor_cor);
+                    paleta.cores.push_back({r1, g1, b1});
+                }
+
+                return paleta;
+            }
         }
 
         Cor consulta_cor(double valor)
