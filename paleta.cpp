@@ -20,6 +20,8 @@ class Paleta
 
     //Operações
     public:
+        int get_quant(){return quantidade;}
+
         Paleta()
         {
             quantidade = 0;
