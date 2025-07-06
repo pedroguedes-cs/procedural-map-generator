@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "paleta.cpp"
+#include "paleta.h"
 
 using namespace std;
 
@@ -20,7 +20,6 @@ int main()
     Paleta saida = teste.ler_arquivo(nome_arquivo);
     resposta = saida.consulta_cor(consulta);
     
-    cout << saida.get_quant() << endl;
     cout << resposta.r << " " << resposta.g << " " << resposta.b << endl;
 
 
