@@ -17,15 +17,15 @@ int main()
        {
             if (j == 0)
             {
-                teste.definir_cor(i, j, {0, 0, 255});
+                teste.definir_cor(j, i, {0, 0, 255});
             }
             if (j == 1)
             {
-                teste.definir_cor(i, j, {255, 255, 255});
+                teste.definir_cor(j, i, {255, 255, 255});
             }
             if (j == 2)
             {
-                teste.definir_cor(i, j, {255, 0, 0});
+                teste.definir_cor(j, i, {255, 0, 0});
             }
        } 
     }
