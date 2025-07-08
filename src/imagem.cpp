@@ -2,6 +2,9 @@
 
 using namespace std;
 
+//altura = linha
+//largura = coluna
+
 Imagem::Imagem(int largura1, int altura1)
 {
     for(int i=0; i < altura1; ++i){
@@ -13,8 +16,7 @@ Imagem::Imagem(int largura1, int altura1)
 
 Cor Imagem::consulta_pixel(int largura1, int altura1)
 {
-    Cor resposta;
-    
+    return matriz[altura1 * largura + largura1];   
 }
 
 void Imagem::definir_cor(int largura1, int altura1, Cor cor_pixel)
