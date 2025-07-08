@@ -12,12 +12,11 @@ class Imagem
 
     public:
         Imagem(int largura1, int altura1); // Construtor
-
+        ~Imagem();
         Cor consulta_pixel(int largura1, int altura1); //Consulta de pixel da imagem
         void definir_cor(int largura1, int altura1, Cor cor_pixel); // Definir pixel na imagem
         void salvar_imagem(string nome_arquivo); //Salvar imagem em PPM
 
-        void liberar_matriz(Imagem imagem); // Liberar matriz na alocação dinamica
 
 };
 

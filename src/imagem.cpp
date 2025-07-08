@@ -59,6 +59,6 @@ void Imagem::salvar_imagem(string nome_arquivo)
     }
 }
 
-void Imagem::liberar_matriz(Imagem imagem){
-    delete[] imagem.matriz;
+Imagem::~Imagem(){
+    delete[] matriz;
 };
