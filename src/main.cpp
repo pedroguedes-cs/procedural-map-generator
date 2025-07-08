@@ -1,27 +1,35 @@
 #include <iostream>
 #include <string>
+#include "imagem.h"
 #include "paleta.h"
 
 using namespace std;
 
 int main()
 {   
+    Imagem teste(3, 3);
 
-    Cor resposta;
-    double consulta;
-    Paleta teste;
-    string nome_arquivo;
-
-    cout << "Digite o nome do arquivo: ";
-    cin >> nome_arquivo;
-    cout << "Digite o valor a ser consultado: ";
-    cin >> consulta;
-
-    Paleta saida = teste.ler_arquivo(nome_arquivo);
-    resposta = saida.consulta_cor(consulta);
     
-    cout << resposta.r << " " << resposta.g << " " << resposta.b << endl;
+    for (int i = 0; i < 3; i++)
+    {
+       for (int j = 0; j < 3; j++)
+       {
+            if (j == 0)
+            {
+                teste.definir_cor(i, j, {0, 0, 255});
+            }
+            if (j == 1)
+            {
+                teste.definir_cor(i, j, {255, 255, 255});
+            }
+            if (j == 2)
+            {
+                teste.definir_cor(i, j, {255, 0, 0});
+            }
+       } 
+    }
 
+    teste.salvar_imagem("França.ppm");
 
     return 0;
 }
