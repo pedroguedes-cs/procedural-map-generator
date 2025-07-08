@@ -7,7 +7,7 @@ class Imagem
 {
     int largura;
     int altura;
-    Cor *matriz = new Cor[altura * largura];
+    Cor *matriz;
 
     public:
         Imagem(int largura1, int altura1); // Construtor
@@ -16,7 +16,7 @@ class Imagem
         void definir_cor(int largura1, int altura1, Cor cor_pixel); // Definir pixel na imagem
         void salvar_imagem(string nome_arquivo); //Salvar imagem em PPM
 
-        void liberar_matriz(); // Liberar matriz na alocação dinamica
+        void liberar_matriz(Imagem imagem); // Liberar matriz na alocação dinamica
 
 };
 

@@ -2,6 +2,7 @@
 #include <string>
 #include "imagem.h"
 #include "paleta.h"
+#include "imagem.h"
 
 using namespace std;
 
@@ -30,6 +31,5 @@ int main()
     }
 
     teste.salvar_imagem("França.ppm");
-
     return 0;
 }
