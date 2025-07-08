@@ -19,7 +19,7 @@ Cor Imagem::consulta_pixel(int largura1, int altura1)
 
 void Imagem::definir_cor(int largura1, int altura1, Cor cor_pixel)
 {
-
+    *(matriz + (altura1 * largura) + largura1)
 }
 
 void salvar_imagem();
