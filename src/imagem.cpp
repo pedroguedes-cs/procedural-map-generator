@@ -1,4 +1,6 @@
 #include "imagem.h"
+#include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -24,6 +26,30 @@ void Imagem::definir_cor(int largura1, int altura1, Cor cor_pixel)
     matriz[altura1 * largura + largura1].b = cor_pixel.b; 
 }
 
-void salvar_imagem();
+void Imagem::salvar_imagem(string nome_arquivo)
+{
+    ofstream arquivo(nome_arquivo, ios::out | ios::trunc);
+
+    if (arquivo.is_open() == false)
+    {
+        return;
+    }
+    else
+    {
+        // Metadados
+        arquivo << "P3" << endl;
+        arquivo << largura << " " << altura << endl;
+        arquivo << "255" << endl;
+
+        // Matriz
+        for (int i = 0; i < altura; i++)
+        {
+            for (int j = 0; j < largura; j++)
+            {
+                arquivo << matriz[i * largura + j].r << " " << matriz[i * largura + j].g << " " << matriz[i * largura + j].b << endl;
+            }
+        }
+    }
+}
 
 void liberar_matriz();
