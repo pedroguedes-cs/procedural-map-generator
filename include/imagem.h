@@ -7,7 +7,7 @@ class Imagem
 {
     int largura;
     int altura;
-    Cor imagem[][200]; // Alterar
+    Cor *matriz;
 
     public:
         Imagem(int largura1, int altura1); // Construtor
