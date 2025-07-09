@@ -2,7 +2,7 @@
 #include <string>
 #include "imagem.h"
 #include "paleta.h"
-#include "imagem.h"
+
 
 using namespace std;
 

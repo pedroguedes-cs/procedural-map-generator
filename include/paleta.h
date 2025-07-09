@@ -16,6 +16,7 @@ class Paleta
     //Operações
     public:
         int get_quant();
+        
         Paleta();
         Paleta(int quantidade1, vector<Cor> cores1, vector<double> valores1);
 
