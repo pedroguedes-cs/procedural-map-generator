@@ -1,4 +1,4 @@
-#include "paleta.h"
+#include "../include/paleta.h"
 #include <fstream>
 
 using namespace std;

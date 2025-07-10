@@ -1,4 +1,4 @@
-#include "imagem.h"
+#include "../include/imagem.h"
 #include <string>
 #include <fstream>
 

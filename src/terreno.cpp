@@ -1,4 +1,4 @@
-#include "terreno.h"
+#include "../include/terreno.h"
 #include <string>
 #include <fstream>
 #include <cmath>
@@ -196,7 +196,7 @@ int Terreno::consulta_colunas()
 //Consultar altitude
 double Terreno::consulta_altitude(int linha1, int coluna1)
 {
-    return altitudes[linhas * colunas + coluna1];
+    return altitudes[linha1 * colunas + coluna1];
 }
 
 //Salvar terreno em um arquivo
@@ -224,8 +224,8 @@ void Terreno::salvar_terreno(string nome_arquivo)
 }
 
 //Ler um arquivo e retornar um terreno
-Terreno Terreno::ler_terreno(string nome_arquivo)
-{
+// Terreno Terreno::ler_terreno(string nome_arquivo)
+// {
 
-}
+// }
 
