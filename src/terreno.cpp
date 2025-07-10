@@ -7,13 +7,31 @@ using namespace std;
 
 
 //Construtor padrão
+Terreno::Terreno()
+{
+    int padrao = 3;
+
+    linhas = padrao;
+    colunas = padrao;
+    altitudes = new double[padrao * padrao];
+
+    for(int i = 0; i < (padrao * padrao); i++)
+    {
+        altitudes[i] = -1;
+    }
+
+}
+
+
+// Construtor parametrizado
 Terreno::Terreno(int gerador, double rugosidade){
     int tamanho = pow(2, gerador) + 1;
     linhas = tamanho;
     colunas = tamanho;
     altitudes = new double[tamanho * tamanho];
 
-    for(int i=0; i < tamanho; i++){
+    for(int i=0; i < tamanho; i++)
+    {
         altitudes[i] = -1;
     }
 
@@ -176,7 +194,7 @@ int Terreno::consulta_colunas()
 }
 
 //Consultar altitude
-int Terreno::consulta_altitude(int linha1, int coluna1)
+double Terreno::consulta_altitude(int linha1, int coluna1)
 {
     return altitudes[linhas * colunas + coluna1];
 }

@@ -8,11 +8,8 @@ using namespace std;
 
 int main()
 {   
-    Terreno teste(1);
+    Terreno teste(3, 0.5);
 
-    cout << teste.consulta_linhas() << endl;
-    cout << teste.consulta_colunas() << endl;
-
-    teste.salvar_terreno("pato.txt");
+    teste.consulta_altitude(0, 1);
 
 }
