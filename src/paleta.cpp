@@ -3,7 +3,10 @@
 
 using namespace std;
 
-int Paleta::get_quant() { return quantidade; }
+int Paleta::get_quant() 
+{ 
+    return quantidade; 
+}
 
 Paleta::Paleta()
 {
