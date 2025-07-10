@@ -1,5 +1,8 @@
 #include "terreno.h"
 #include <string>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -7,7 +10,15 @@ using namespace std;
 //Construtor padrão
 Terreno::Terreno(int gerador)
 {
+    int tamanho = (pow(2, gerador) + 1);
+    linhas = tamanho;
+    colunas = tamanho;
 
+    altitudes = new int[linhas * colunas];
+    for (int i = 0; i < (linhas * colunas); i++)
+    {
+        altitudes[i] = 0;
+    }
 }
 
 //Destrutor
@@ -17,9 +28,22 @@ Terreno::~Terreno()
 }
 
 //Gerar mapa
-void Terreno::gerar_mapa(int gerador, double rugosidade)
+void Terreno::gerar_mapa(double rugosidade)
 {
+    int lado = linhas;
 
+    // Pontas
+    altitudes[0 * lado + 0] = 
+    altitudes[0 * lado + lado] = 
+    altitudes[lado * lado + 0] = 
+    altitudes[lado * lado + lado] = 
+    
+
+    // Loop (Diamond-Square)
+    while (lado > 1)
+    {
+
+    }
 }
 
 //Consultar linhas
