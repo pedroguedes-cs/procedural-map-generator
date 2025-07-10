@@ -19,6 +19,21 @@ Terreno::Terreno(int gerador)
     }
 }
 
+Terreno::Terreno(int gerador, double rugosidade){
+    int tamanho = pow(2, gerador) + 1;
+    linhas = tamanho;
+    colunas = tamanho;
+    altitudes = new int[tamanho * tamanho];
+
+    for(int i=0; i < tamanho; i++){
+        altitudes[i] = 0;
+    }
+
+    gerar_mapa(gerador, rugosidade);
+
+}
+
+
 //Destrutor
 Terreno::~Terreno()
 {

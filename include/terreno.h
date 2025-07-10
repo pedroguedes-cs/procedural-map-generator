@@ -13,6 +13,7 @@ class Terreno
     
     public:
         Terreno(int gerador); // Construtor default, Matriz tem tamanho (2^gerador) + 1
+        Terreno(int gerador, double rugosidade); //Construtor parametrizado
         ~Terreno(); // Destrutor
 
         void gerar_mapa(double rugosidade); //Gerar mapa de altitudes
