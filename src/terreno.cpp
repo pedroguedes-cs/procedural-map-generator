@@ -7,30 +7,17 @@ using namespace std;
 
 
 //Construtor padrão
-Terreno::Terreno(int gerador)
-{
-    int tamanho = pow(2, gerador) + 1;
-    linhas = tamanho;
-    colunas = tamanho;
-    altitudes = new double[linhas * colunas];
-    for (int i = 0; i < (linhas * colunas); i++)
-    {
-        altitudes[i] = -1;
-    }
-}
-
 Terreno::Terreno(int gerador, double rugosidade){
     int tamanho = pow(2, gerador) + 1;
     linhas = tamanho;
     colunas = tamanho;
-    altitudes = new int[tamanho * tamanho];
+    altitudes = new double[tamanho * tamanho];
 
     for(int i=0; i < tamanho; i++){
-        altitudes[i] = 0;
+        altitudes[i] = -1;
     }
 
-    gerar_mapa(gerador, rugosidade);
-
+    gerar_mapa(rugosidade);
 }
 
 
