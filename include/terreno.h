@@ -7,7 +7,7 @@ class Terreno
 {
     int linhas;
     int colunas;
-    int *altitudes;
+    double *altitudes;
 
     //Falta definir Diamond e Square
     
