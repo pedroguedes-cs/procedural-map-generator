@@ -15,7 +15,7 @@ int main()
 
     tamanho_linha = pow(2, gerador) + 1;
 
-    Terreno teste(gerador, 0.5);
+    Terreno teste(gerador, 0.9);
 
     for (int i = 0; i < (tamanho_linha * tamanho_linha); i++)
     {

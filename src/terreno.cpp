@@ -63,7 +63,7 @@ void Terreno::gerar_mapa(double rugosidade)
     altitudes[0 * linhas + 0] = random(0, limite);
     altitudes[0 * linhas + (colunas - 1)] = random(0, limite);
     altitudes[(linhas - 1) * colunas + 0] = random(0, limite);
-    altitudes[linhas * (colunas - 1) + (colunas - 1)] = random(0, limite);
+    altitudes[(linhas - 1) * colunas + (colunas - 1)] = random(0, limite);
     
 
     // Loop (Diamond-Square)
@@ -72,19 +72,20 @@ void Terreno::gerar_mapa(double rugosidade)
 
     while (lado > 1)
     {
-        int quadrados_por_linha = sqrt(((linhas - 1) * (colunas - 1)) / (lado * lado));
+        int quadrados_por_linha = (linhas - 1) / lado;
+        int quadrados_por_coluna = quadrados_por_linha;
 
         // Loop (Diamond)
-        for (int i = 0; i < quadrados_por_linha; i++)
+        for (int i = 0; i < quadrados_por_coluna; i++)
         {
             for (int j = 0; j < quadrados_por_linha; j++)
             {
                 // Pontas
                 int p1 = (i * lado) + (j * lado);
-                int p2 = (i * lado) + ((j + 1) * lado);
-                int p3 = ((i + 1) * lado) + (j * lado);
-                int p4 = ((i + 1) * lado) + ((j + 1) * lado);
-                int centro = (i * lado) + (j * lado) + (colunas * lado / 2) + (lado / 2);
+                int p2 = (i * lado) + (j * lado) + lado;
+                int p3 = (i * lado) + (j * lado) + (lado * colunas);
+                int p4 = (i * lado) + (j * lado) + lado + (lado * colunas);
+                int centro = (i * lado) + (j * lado) + (lado / 2 * colunas) + (lado / 2);
 
 
                 if (altitudes[p1] < 0)
@@ -111,16 +112,16 @@ void Terreno::gerar_mapa(double rugosidade)
         }
 
         // Loop (Square)
-        for (int i = 0; i < quadrados_por_linha; i++)
+        for (int i = 0; i < quadrados_por_coluna; i++)
         {
             for (int j = 0; j < quadrados_por_linha; j++)
             {
                 // Pontas
                 int p1 = (i * lado) + (j * lado);
-                int p2 = (i * lado) + ((j + 1) * lado);
-                int p3 = ((i + 1) * lado) + (j * lado);
-                int p4 = ((i + 1) * lado) + ((j + 1) * lado);
-                int centro = (i * lado) + (j * lado) + (colunas * lado / 2) + (lado / 2);
+                int p2 = (i * lado) + (j * lado) + lado;
+                int p3 = (i * lado) + (j * lado) + (lado * colunas);
+                int p4 = (i * lado) + (j * lado) + lado + (lado * colunas);
+                int centro = (i * lado) + (j * lado) + (lado / 2 * colunas) + (lado / 2);
 
                 // Pontos intermediários
                 int p_cima = centro - (lado / 2 * colunas);
@@ -169,7 +170,7 @@ void Terreno::gerar_mapa(double rugosidade)
                 }
                 else
                 {
-                    altitudes[p_esquerda] = ((altitudes[p1] + altitudes[p3] + altitudes[centro] + altitudes[centro - lado]) / 3) + deslocamento_aleatorio;
+                    altitudes[p_esquerda] = ((altitudes[p1] + altitudes[p3] + altitudes[centro] + altitudes[centro - lado]) / 4) + deslocamento_aleatorio;
                 }
 
             }
