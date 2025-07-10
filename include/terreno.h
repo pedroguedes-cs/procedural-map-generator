@@ -25,3 +25,5 @@ class Terreno
         Terreno ler_terreno(string nome_arquivo); //Se houver matriz alocada, desalocar a matriz e alocar outra com as informações do arquivo    
 
 };
+
+double random(double inicio_intervalo, double fim_intervalo);

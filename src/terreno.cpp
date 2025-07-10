@@ -1,8 +1,7 @@
 #include "terreno.h"
 #include <string>
 #include <cmath>
-#include <cstdlib>
-#include <ctime>
+#include <random>
 
 using namespace std;
 
@@ -27,22 +26,30 @@ Terreno::~Terreno()
 
 }
 
+// Função que gera números aleatórios
+double random(double inicio_intervalo, double fim_intervalo)
+{
+    static random_device rd;     
+    static mt19937 gen(rd());      
+    uniform_real_distribution<double> distrib(inicio_intervalo, fim_intervalo);
+    return distrib(gen);
+}
+
 //Gerar mapa
 void Terreno::gerar_mapa(double rugosidade)
 {
     // Pontas
-    srand(time(0));
     int limite = 21;
 
-    altitudes[0 * linhas + 0] = (rand() % limite);
-    altitudes[0 * linhas + (colunas - 1)] = (rand() % limite);
-    altitudes[(linhas - 1) * colunas + 0] = (rand() % limite);
-    altitudes[linhas * (colunas - 1) + (colunas - 1)] = (rand() % limite);
+    altitudes[0 * linhas + 0] = random(0, limite);
+    altitudes[0 * linhas + (colunas - 1)] = random(0, limite);
+    altitudes[(linhas - 1) * colunas + 0] = random(0, limite);
+    altitudes[linhas * (colunas - 1) + (colunas - 1)] = random(0, limite);
     
 
     // Loop (Diamond-Square)
     int lado = (linhas - 1);
-    float fator = rugosidade;
+    double deslocamento = 10;
 
     while (lado > 1)
     {
@@ -62,26 +69,26 @@ void Terreno::gerar_mapa(double rugosidade)
 
                 if (altitudes[p1] < 0)
                 {
-                    altitudes[p1] = 
+                    altitudes[p1] = random(0, limite);
                 }
                 if (altitudes[p2] < 0)
                 {
-                    altitudes[p2] = 
+                    altitudes[p2] = random(0, limite);
                 }
                 if (altitudes[p3] < 0)
                 {
-                    altitudes[p3] = 
+                    altitudes[p3] = random(0, limite);
                 }
                 if (altitudes[p4] < 0)
                 {
-                    altitudes[p4] = 
+                    altitudes[p4] = random(0, limite);
                 }
                 
 
                 // (2) Diamond
                 double media = (altitudes[p1] + altitudes[p2] + altitudes[p3] + altitudes[p4]) / 4;
-                double deslocamento = ;
-                altitudes[centro] = media + deslocamento;
+                double deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
+                altitudes[centro] = media + deslocamento_aleatorio;
 
 
                 // (3) Square
@@ -90,8 +97,8 @@ void Terreno::gerar_mapa(double rugosidade)
 
         // (4) Atualização
         lado = lado / 2;
-        fator = fator * 0.5;
-}
+        deslocamento = deslocamento * rugosidade;
+    }
 }
 
 //Consultar linhas
