@@ -2,34 +2,17 @@
 #include <string>
 #include "imagem.h"
 #include "paleta.h"
-
+#include "terreno.h"
 
 using namespace std;
 
 int main()
 {   
-    Imagem teste(3, 3);
+    Terreno teste(1);
 
-    
-    for (int i = 0; i < 3; i++)
-    {
-       for (int j = 0; j < 3; j++)
-       {
-            if (j == 0)
-            {
-                teste.definir_cor(j, i, {0, 0, 255});
-            }
-            if (j == 1)
-            {
-                teste.definir_cor(j, i, {255, 255, 255});
-            }
-            if (j == 2)
-            {
-                teste.definir_cor(j, i, {255, 0, 0});
-            }
-       } 
-    }
+    cout << teste.consulta_linhas() << endl;
+    cout << teste.consulta_colunas() << endl;
 
-    teste.salvar_imagem("França.ppm");
-    return 0;
+    teste.salvar_terreno("pato.txt");
+
 }
