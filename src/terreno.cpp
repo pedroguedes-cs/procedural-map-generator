@@ -69,11 +69,12 @@ void Terreno::gerar_mapa(double rugosidade)
     {
         int quadrados_por_linha = sqrt(((linhas - 1) * (colunas - 1)) / (lado * lado));
 
+        // Loop (Diamond)
         for (int i = 0; i < quadrados_por_linha; i++)
         {
             for (int j = 0; j < quadrados_por_linha; j++)
             {
-                // (1) Pontas
+                // Pontas
                 int p1 = (i * lado) + (j * lado);
                 int p2 = (i * lado) + ((j + 1) * lado);
                 int p3 = ((i + 1) * lado) + (j * lado);
@@ -98,18 +99,78 @@ void Terreno::gerar_mapa(double rugosidade)
                     altitudes[p4] = random(0, limite);
                 }
                 
-
-                // (2) Diamond
                 double media = (altitudes[p1] + altitudes[p2] + altitudes[p3] + altitudes[p4]) / 4;
                 double deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
                 altitudes[centro] = media + deslocamento_aleatorio;
-
-
-                // (3) Square
             }
         }
 
-        // (4) Atualização
+        // Loop (Square)
+        for (int i = 0; i < quadrados_por_linha; i++)
+        {
+            for (int j = 0; j < quadrados_por_linha; j++)
+            {
+                // Pontas
+                int p1 = (i * lado) + (j * lado);
+                int p2 = (i * lado) + ((j + 1) * lado);
+                int p3 = ((i + 1) * lado) + (j * lado);
+                int p4 = ((i + 1) * lado) + ((j + 1) * lado);
+                int centro = (i * lado) + (j * lado) + (colunas * lado / 2) + (lado / 2);
+
+                // Pontos intermediários
+                int p_cima = centro - (lado / 2 * colunas);
+                int p_baixo = centro + (lado / 2 * colunas);
+                int p_direita = centro + (lado / 2);
+                int p_esquerda = centro - (lado / 2);
+
+                // Cima
+                double deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
+                if (p_cima < colunas)
+                {
+                    altitudes[p_cima] = ((altitudes[p1] + altitudes[p2] + altitudes[centro]) / 3) + deslocamento_aleatorio;
+                }
+                else
+                {
+                    altitudes[p_cima] = ((altitudes[p1] + altitudes[p2] + altitudes[centro] + altitudes[centro - (lado * colunas)]) / 4) + deslocamento_aleatorio;
+                }
+
+                // Baixo
+                deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
+                if (p_baixo > (linhas - 1) * colunas)
+                {
+                    altitudes[p_baixo] = ((altitudes[p3] + altitudes[p4] + altitudes[centro]) / 3) + deslocamento_aleatorio;
+                }
+                else
+                {
+                    altitudes[p_baixo] = ((altitudes[p3] + altitudes[p4] + altitudes[centro] + altitudes[centro + (lado * colunas)]) / 4) + deslocamento_aleatorio;
+                }
+
+                // Direita
+                deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
+                if (p_direita % colunas == colunas - 1)
+                {
+                    altitudes[p_direita] = ((altitudes[p2] + altitudes[p4] + altitudes[centro]) / 3) + deslocamento_aleatorio;
+                }
+                else
+                {
+                     altitudes[p_direita] = ((altitudes[p2] + altitudes[p4] + altitudes[centro] + altitudes[centro + lado]) / 4) + deslocamento_aleatorio;
+                }
+
+                // Esquerda
+                deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
+                if (p_esquerda % colunas == 0)
+                {
+                    altitudes[p_esquerda] = ((altitudes[p1] + altitudes[p3] + altitudes[centro]) / 3) + deslocamento_aleatorio;
+                }
+                else
+                {
+                    altitudes[p_esquerda] = ((altitudes[p1] + altitudes[p3] + altitudes[centro] + altitudes[centro - lado]) / 3) + deslocamento_aleatorio;
+                }
+
+            }
+        }
+
+        // Atualização 
         lado = lado / 2;
         deslocamento = deslocamento * rugosidade;
     }
