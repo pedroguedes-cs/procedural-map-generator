@@ -13,26 +13,49 @@ Terreno::Terreno()
 
     linhas = padrao;
     colunas = padrao;
-    altitudes = new double[padrao * padrao];
-
-    for(int i = 0; i < (padrao * padrao); i++)
+    
+    // Matriz de altitudes (3x3)
+    altitudes = new double*[padrao];
+    
+    for(int i = 0; i < padrao; i++)
     {
-        altitudes[i] = -1;
+        altitudes[i] = new double[padrao];
+    }
+
+    // Inicializando valores
+    for (int i = 0; i < padrao; i++)
+    {
+        for (int j = 0; j < padrao; j++)
+        {
+            altitudes[i][j] = -1;
+        }
     }
 
 }
 
 
 // Construtor parametrizado
-Terreno::Terreno(int gerador, double rugosidade){
+Terreno::Terreno(int gerador, double rugosidade)
+{
     int tamanho = pow(2, gerador) + 1;
     linhas = tamanho;
     colunas = tamanho;
-    altitudes = new double[tamanho * tamanho];
 
-    for(int i=0; i < tamanho; i++)
+    // Matriz de altitudes
+    altitudes = new double*[tamanho];
+    
+    for(int i = 0; i < tamanho; i++)
     {
-        altitudes[i] = -1;
+        altitudes[i] = new double[tamanho];
+    }
+
+    // Inicializando valores
+    for (int i = 0; i < tamanho; i++)
+    {
+        for (int j = 0; j < tamanho; j++)
+        {
+            altitudes[i][j] = -1;
+        }
     }
 
     gerar_mapa(rugosidade);
@@ -45,174 +68,188 @@ Terreno::~Terreno()
     delete[] altitudes;
 }
 
-// Função que gera números aleatórios
-double random(double inicio_intervalo, double fim_intervalo)
-{
-    static random_device rd;     
-    static mt19937 gen(rd());      
-    uniform_real_distribution<double> distrib(inicio_intervalo, fim_intervalo);
-    return distrib(gen);
-}
-
 // Diamond
-void Terreno::diamond(int lado, double deslocamento, int limite)
+void Terreno::diamond(int lado, int deslocamento, int limite)
 {
-    int quadrados_por_linha = (linhas - 1) / lado;
-    int quadrados_por_coluna = quadrados_por_linha;
+    int linhas_de_quadrados = (linhas - 1) / lado;
+    int colunas_de_quadrados = linhas_de_quadrados;
 
-    // Loop (Diamond)
-    for (int i = 0; i < quadrados_por_coluna; i++)
+    // Passando por cada quadrado + executando o Diamond
+    for (int i = 0; i < linhas_de_quadrados; i++)
     {
-        for (int j = 0; j < quadrados_por_linha; j++)
+        for (int j = 0; j < colunas_de_quadrados; j++)
         {
-            // Pontas
-            int p1 = (i * lado) + (j * lado);
-            int p2 = (i * lado) + (j * lado) + lado;
-            int p3 = (i * lado) + (j * lado) + (lado * colunas);
-            int p4 = (i * lado) + (j * lado) + lado + (lado * colunas);
-            int centro = (i * lado) + (j * lado) + (lado / 2 * colunas) + (lado / 2);
-
-
-            if (altitudes[p1] < 0)
-            {
-                altitudes[p1] = random(0, limite);
-            }
-            if (altitudes[p2] < 0)
-            {
-                altitudes[p2] = random(0, limite);
-            }
-            if (altitudes[p3] < 0)
-            {
-                altitudes[p3] = random(0, limite);
-            }
-            if (altitudes[p4] < 0)
-            {
-                altitudes[p4] = random(0, limite);
-            }
+            // Coordenadas
+            Ponto ponta1 = {i * lado, j * lado};
+            Ponto ponta2 = {i * lado, j * lado + lado};
+            Ponto ponta3 = {i * lado + lado, j * lado};
+            Ponto ponta4 = {i * lado + lado, j * lado + lado};
+            Ponto centro = {i * lado + (lado / 2), j * lado + (lado / 2)};
             
-            double media = (altitudes[p1] + altitudes[p2] + altitudes[p3] + altitudes[p4]) / 4;
-            double deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
-            altitudes[centro] = media + deslocamento_aleatorio;
+            int deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
+            double soma = altitudes[ponta1.linha][ponta1.coluna] + altitudes[ponta2.linha][ponta2.coluna] + altitudes[ponta3.linha][ponta3.coluna] + altitudes[ponta4.linha][ponta4.coluna];
+
+            // Centro
+            altitudes[centro.linha][centro.coluna] = abs((soma / 4) + deslocamento_aleatorio);
         }
     }
 }
+
 
 // Square
-void Terreno::square(int lado, double deslocamento)
+void Terreno::square(int lado, int deslocamento)
 {
-    int quadrados_por_linha = (linhas - 1) / lado;
-    int quadrados_por_coluna = quadrados_por_linha;
+    int linhas_de_quadrados = (linhas - 1) / lado;
+    int colunas_de_quadrados = linhas_de_quadrados;
 
-    for (int i = 0; i < quadrados_por_coluna; i++)
+    // Passando por cada quadrado + executando o Square
+    for (int i = 0; i < linhas_de_quadrados; i++)
     {
-        for (int j = 0; j < quadrados_por_linha; j++)
+        for (int j = 0; j < colunas_de_quadrados; j++)
         {
-            // Pontas
-            int p1 = (i * lado) + (j * lado);
-            int p2 = (i * lado) + (j * lado) + lado;
-            int p3 = (i * lado) + (j * lado) + (lado * colunas);
-            int p4 = (i * lado) + (j * lado) + lado + (lado * colunas);
-            int centro = (i * lado) + (j * lado) + (lado / 2 * colunas) + (lado / 2);
+            // Coordenadas
+            Ponto ponta1 = {i * lado, j * lado};
+            Ponto ponta2 = {i * lado, j * lado + lado};
+            Ponto ponta3 = {i * lado + lado, j * lado};
+            Ponto ponta4 = {i * lado + lado, j * lado + lado};
 
-            // Pontos intermediários
-            int p_cima = centro - (lado / 2 * colunas);
-            int p_baixo = centro + (lado / 2 * colunas);
-            int p_direita = centro + (lado / 2);
-            int p_esquerda = centro - (lado / 2);
+            Ponto centro = {i * lado + (lado / 2), j * lado + (lado / 2)};
+            
+            Ponto norte = {i * lado, j * lado + (lado / 2)};
+            Ponto sul = {i * lado + lado, j * lado + (lado / 2)};
+            Ponto leste = {i * lado + (lado / 2), j * lado + lado};
+            Ponto oeste = {i * lado + (lado / 2), j * lado};
 
-            // Cima
-            double deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
-            if (p_cima < colunas)
+            Ponto centro_norte = {centro.linha - lado, centro.coluna};
+            Ponto centro_sul = {centro.linha + lado, centro.coluna};
+            Ponto centro_leste = {centro.linha, centro.coluna + lado};
+            Ponto centro_oeste = {centro.linha, centro.coluna - lado};
+
+
+            // Norte
+
+            int deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
+            int soma;
+
+            if (altitudes[norte.linha][norte.coluna] < 0)
             {
-                altitudes[p_cima] = ((altitudes[p1] + altitudes[p2] + altitudes[centro]) / 3) + deslocamento_aleatorio;
-            }
-            else
-            {
-                altitudes[p_cima] = ((altitudes[p1] + altitudes[p2] + altitudes[centro] + altitudes[centro - (lado * colunas)]) / 4) + deslocamento_aleatorio;
-            }
-            if (altitudes[p_cima] < 0)
-            {
-                altitudes[p_cima] = abs(altitudes[p_cima]);
+                if (norte.linha == 0)
+                {
+                    soma = altitudes[ponta1.linha][ponta1.coluna] + altitudes[ponta2.linha][ponta2.coluna] + altitudes[centro.linha][centro.coluna];
+                    altitudes[norte.linha][norte.coluna] = (soma / 3) + deslocamento_aleatorio;
+                }
+                else
+                {
+                    soma = altitudes[ponta1.linha][ponta1.coluna] + altitudes[ponta2.linha][ponta2.coluna] + altitudes[centro.linha][centro.coluna] + altitudes[centro_norte.linha][centro_norte.coluna];
+                    altitudes[norte.linha][norte.coluna] = (soma / 4) + deslocamento_aleatorio;
+                }
+                if (altitudes[norte.linha][norte.coluna] < 0)
+                {
+                    altitudes[norte.linha][norte.coluna] = abs(altitudes[norte.linha][norte.coluna]);
+                }
             }
 
-            // Baixo
+
+            // Sul
+
             deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
-            if (p_baixo > (linhas - 1) * colunas)
+
+            if (altitudes[sul.linha][sul.coluna] < 0)
             {
-                altitudes[p_baixo] = ((altitudes[p3] + altitudes[p4] + altitudes[centro]) / 3) + deslocamento_aleatorio;
+                if (sul.linha == (linhas - 1))
+                {
+                    soma = altitudes[ponta3.linha][ponta3.coluna] + altitudes[ponta4.linha][ponta4.coluna] + altitudes[centro.linha][centro.coluna];
+                    altitudes[sul.linha][sul.coluna] = (soma / 3) + deslocamento_aleatorio;
+                }
+                else
+                {
+                    soma = altitudes[ponta3.linha][ponta3.coluna] + altitudes[ponta4.linha][ponta4.coluna] + altitudes[centro.linha][centro.coluna] + altitudes[centro_sul.linha][centro_sul.coluna];
+                    altitudes[sul.linha][sul.coluna] = (soma / 4) + deslocamento_aleatorio;
+                }
+                if (altitudes[sul.linha][sul.coluna] < 0)
+                {
+                    altitudes[sul.linha][sul.coluna] = abs(altitudes[sul.linha][sul.coluna]);
+                }
             }
-            else
+            
+
+            // Leste
+
+            deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
+
+            if (altitudes[leste.linha][leste.coluna] < 0)
             {
-                altitudes[p_baixo] = ((altitudes[p3] + altitudes[p4] + altitudes[centro] + altitudes[centro + (lado * colunas)]) / 4) + deslocamento_aleatorio;
-            }
-            if (altitudes[p_baixo] < 0)
-            {
-                altitudes[p_baixo] = abs(altitudes[p_baixo]);
+                if (leste.coluna == (colunas - 1))
+                {
+                    soma = altitudes[ponta2.linha][ponta2.coluna] + altitudes[ponta4.linha][ponta4.coluna] + altitudes[centro.linha][centro.coluna];
+                    altitudes[leste.linha][leste.coluna] = (soma / 3) + deslocamento_aleatorio;
+                }
+                else
+                {
+                    soma = altitudes[ponta2.linha][ponta2.coluna] + altitudes[ponta4.linha][ponta4.coluna] + altitudes[centro.linha][centro.coluna] + altitudes[centro_leste.linha][centro_leste.coluna];
+                    altitudes[leste.linha][leste.coluna] = (soma / 4) + deslocamento_aleatorio;
+                }
+                if (altitudes[leste.linha][leste.coluna] < 0)
+                {
+                    altitudes[leste.linha][leste.coluna] = abs(altitudes[leste.linha][leste.coluna]);
+                }
             }
 
-            // Direita
+
+            // Oeste
+
             deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
-            if (p_direita % colunas == colunas - 1)
+
+            if (altitudes[oeste.linha][oeste.coluna] < 0)
             {
-                altitudes[p_direita] = ((altitudes[p2] + altitudes[p4] + altitudes[centro]) / 3) + deslocamento_aleatorio;
-            }
-            else
-            {
-                    altitudes[p_direita] = ((altitudes[p2] + altitudes[p4] + altitudes[centro] + altitudes[centro + lado]) / 4) + deslocamento_aleatorio;
-            }
-            if (altitudes[p_direita] < 0)
-            {
-                altitudes[p_direita] = abs(altitudes[p_direita]);
+                if (oeste.coluna == 0)
+                {
+                    soma = altitudes[ponta1.linha][ponta1.coluna] + altitudes[ponta3.linha][ponta3.coluna] + altitudes[centro.linha][centro.coluna];
+                    altitudes[oeste.linha][oeste.coluna] = (soma / 3) + deslocamento_aleatorio;
+                }
+                else
+                {
+                    soma = altitudes[ponta1.linha][ponta1.coluna] + altitudes[ponta3.linha][ponta3.coluna] + altitudes[centro.linha][centro.coluna] + altitudes[centro_oeste.linha][centro_oeste.coluna];
+                    altitudes[oeste.linha][oeste.coluna] = (soma / 4) + deslocamento_aleatorio;
+                }
+                if (altitudes[oeste.linha][oeste.coluna] < 0)
+                {
+                    altitudes[oeste.linha][oeste.coluna] = abs(altitudes[oeste.linha][oeste.coluna]);
+                }
             }
 
-            // Esquerda
-            deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
-            if (p_esquerda % colunas == 0)
-            {
-                altitudes[p_esquerda] = ((altitudes[p1] + altitudes[p3] + altitudes[centro]) / 3) + deslocamento_aleatorio;
-            }
-            else
-            {
-                altitudes[p_esquerda] = ((altitudes[p1] + altitudes[p3] + altitudes[centro] + altitudes[centro - lado]) / 4) + deslocamento_aleatorio;
-            }
-            if (altitudes[p_esquerda] < 0)
-            {
-                altitudes[p_esquerda] = abs(altitudes[p_esquerda]);
-            }
 
         }
     }
+
+
 }
 
-
-
-
-//Gerar mapa
+// Diamond-Square
 void Terreno::gerar_mapa(double rugosidade)
 {
-    // Pontas
+    int deslocamento = 10;
+    int lado = linhas - 1;
+
+    // Pontas iniciais
     int limite = 21;
+    altitudes[0][0] = random(0, limite);
+    altitudes[0][lado] = random(0, limite);
+    altitudes[lado][0] = random(0, limite);
+    altitudes[lado][lado] = random(0, limite);
 
-    altitudes[0 * linhas + 0] = random(0, limite);
-    altitudes[0 * linhas + (colunas - 1)] = random(0, limite);
-    altitudes[(linhas - 1) * colunas + 0] = random(0, limite);
-    altitudes[(linhas - 1) * colunas + (colunas - 1)] = random(0, limite);
-    
 
-    // Loop (Diamond-Square)
-    int lado = (linhas - 1);
-    double deslocamento = 10;
 
-    while (lado > 1)
+    while(lado > 1)
     {
         diamond(lado, deslocamento, limite);
-
         square(lado, deslocamento);
 
         lado = lado / 2;
         deslocamento = deslocamento * rugosidade;
     }
 }
+
 
 //Consultar linhas
 int Terreno::consulta_linhas()
@@ -229,7 +266,7 @@ int Terreno::consulta_colunas()
 //Consultar altitude
 double Terreno::consulta_altitude(int linha1, int coluna1)
 {
-    return altitudes[linha1 * colunas + coluna1];
+    return altitudes[linha1][coluna1];
 }
 
 //Salvar terreno em um arquivo
@@ -262,3 +299,13 @@ void Terreno::salvar_terreno(string nome_arquivo)
 
 // }
 
+
+// Função que gera números aleatórios
+int random(int inicio_intervalo, int fim_intervalo)
+{
+    static random_device rd;
+    static mt19937 gen(rd());
+    uniform_int_distribution<> distrib(inicio_intervalo, fim_intervalo);
+    return distrib(gen);
+    return distrib(gen);
+}

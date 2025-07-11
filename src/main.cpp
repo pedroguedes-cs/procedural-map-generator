@@ -9,23 +9,20 @@ using namespace std;
 
 int main()
 {  
-    int gerador, tamanho_linha;
-    cout << "Digite um número gerador: ";
+    int gerador, tamanho;
     cin >> gerador;
+    tamanho = pow(2, gerador) + 1;
 
-    tamanho_linha = pow(2, gerador) + 1;
 
     Terreno teste(gerador, 0.9);
 
-    for (int i = 0; i < (tamanho_linha * tamanho_linha); i++)
+
+    for (int i = 0; i < tamanho; i++)
     {
-        if (i % tamanho_linha == tamanho_linha - 1)
+        for (int j = 0; j < tamanho; j++)
         {
-            cout << teste.consulta_altitude(i / tamanho_linha, i % tamanho_linha) << endl;
+            cout << teste.consulta_altitude(i, j) << " ";
         }
-        else
-        {
-            cout << teste.consulta_altitude(i / tamanho_linha, i % tamanho_linha) << " ";
-        }
+        cout << endl;
     }
 }

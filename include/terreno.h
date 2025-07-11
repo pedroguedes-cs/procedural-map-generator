@@ -7,7 +7,7 @@ class Terreno
 {
     int linhas;
     int colunas;
-    double *altitudes;
+    double **altitudes;
 
     //Falta definir Diamond e Square
     
@@ -17,8 +17,8 @@ class Terreno
         ~Terreno(); // Destrutor
 
         void gerar_mapa(double rugosidade); //Gerar mapa de altitudes
-        void Terreno::diamond(int lado, double deslocamento, int limite); // Etapa Diamond
-        void Terreno::square(int lado, double deslocamento); // Etapa Square
+        void diamond(int lado, int deslocamento, int limite); // Etapa Diamond
+        void square(int lado, int deslocamento); // Etapa Square
 
         int consulta_linhas(); // Consultar numero de linhas
         int consulta_colunas(); // consultar numero de colunas
@@ -29,4 +29,10 @@ class Terreno
 
 };
 
-double random(double inicio_intervalo, double fim_intervalo);
+int random(int inicio_intervalo, int fim_intervalo);
+
+struct Ponto
+{
+    int linha;
+    int coluna;
+};
