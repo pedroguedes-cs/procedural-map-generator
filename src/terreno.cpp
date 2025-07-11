@@ -68,7 +68,7 @@ void Terreno::gerar_mapa(double rugosidade)
 
     // Loop (Diamond-Square)
     int lado = (linhas - 1);
-    double deslocamento = 10;
+    double deslocamento = 5;
 
     while (lado > 1)
     {
@@ -139,6 +139,10 @@ void Terreno::gerar_mapa(double rugosidade)
                 {
                     altitudes[p_cima] = ((altitudes[p1] + altitudes[p2] + altitudes[centro] + altitudes[centro - (lado * colunas)]) / 4) + deslocamento_aleatorio;
                 }
+                if (altitudes[p_cima] < 0)
+                {
+                    altitudes[p_cima] = abs(altitudes[p_cima]);
+                }
 
                 // Baixo
                 deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
@@ -149,6 +153,10 @@ void Terreno::gerar_mapa(double rugosidade)
                 else
                 {
                     altitudes[p_baixo] = ((altitudes[p3] + altitudes[p4] + altitudes[centro] + altitudes[centro + (lado * colunas)]) / 4) + deslocamento_aleatorio;
+                }
+                if (altitudes[p_baixo] < 0)
+                {
+                    altitudes[p_baixo] = abs(altitudes[p_baixo]);
                 }
 
                 // Direita
@@ -161,6 +169,10 @@ void Terreno::gerar_mapa(double rugosidade)
                 {
                      altitudes[p_direita] = ((altitudes[p2] + altitudes[p4] + altitudes[centro] + altitudes[centro + lado]) / 4) + deslocamento_aleatorio;
                 }
+                if (altitudes[p_direita] < 0)
+                {
+                    altitudes[p_direita] = abs(altitudes[p_direita]);
+                }
 
                 // Esquerda
                 deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
@@ -171,6 +183,10 @@ void Terreno::gerar_mapa(double rugosidade)
                 else
                 {
                     altitudes[p_esquerda] = ((altitudes[p1] + altitudes[p3] + altitudes[centro] + altitudes[centro - lado]) / 4) + deslocamento_aleatorio;
+                }
+                if (altitudes[p_esquerda] < 0)
+                {
+                    altitudes[p_esquerda] = abs(altitudes[p_esquerda]);
                 }
 
             }
