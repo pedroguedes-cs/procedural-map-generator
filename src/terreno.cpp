@@ -283,21 +283,56 @@ void Terreno::salvar_terreno(string nome_arquivo)
         arquivo << linhas << " " << colunas << endl;
     }
 
-    for(int i=0; i < linhas; i++)
+    for(int i = 0; i < linhas; i++)
     {
-        for(int j=0; j < colunas; j++)
+        for(int j = 0; j < colunas; j++)
         {
-            arquivo << altitudes[i * colunas + j] << " ";
+            arquivo << altitudes[i][j] << " ";
         }
         arquivo << endl;
     }
 }
 
 //Ler um arquivo e retornar um terreno
-// Terreno Terreno::ler_terreno(string nome_arquivo)
-// {
+void Terreno::ler_terreno(string nome_arquivo)
+{
+    ifstream arquivo(nome_arquivo);
 
-// }
+    if (arquivo.is_open() == false)
+    {
+        return;
+    }
+    else
+    {
+        // Liberando memória
+        for (int i = 0; i < linhas; i++)
+        {
+            delete[] altitudes[i];
+        }
+        delete[] altitudes;
+
+        // Leitura medidas
+        arquivo >> linhas >> colunas;
+        altitudes = new double*[linhas];
+
+        // Alocando matriz
+        for (int i = 0; i < linhas; i++)
+        {
+            altitudes[i] = new double[colunas];
+        }
+
+        // Leitura altitudes
+        double valor;
+        for (int i = 0; i < linhas; i++)
+        {
+            for (int j = 0; j < colunas; j++)
+            {
+                arquivo >> valor;
+                altitudes[i][j] = valor;
+            }
+        }
+    }
+}
 
 
 // Função que gera números aleatórios

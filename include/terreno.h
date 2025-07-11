@@ -25,7 +25,7 @@ class Terreno
         double consulta_altitude(int linha1, int coluna1); //Consultar altitude
 
         void salvar_terreno(string nome_arquivo); //Salvar dimensões e altitudes em um arquivo
-        Terreno ler_terreno(string nome_arquivo); //Se houver matriz alocada, desalocar a matriz e alocar outra com as informações do arquivo    
+        void ler_terreno(string nome_arquivo); //Se houver matriz alocada, desalocar a matriz e alocar outra com as informações do arquivo    
 
 };
 
