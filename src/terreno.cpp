@@ -65,6 +65,11 @@ Terreno::Terreno(int gerador, double rugosidade)
 //Destrutor
 Terreno::~Terreno()
 {
+    // Liberando memória
+    for (int i = 0; i < linhas; i++)
+    {
+        delete[] altitudes[i];
+    }
     delete[] altitudes;
 }
 
