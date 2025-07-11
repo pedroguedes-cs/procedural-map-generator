@@ -54,6 +54,139 @@ double random(double inicio_intervalo, double fim_intervalo)
     return distrib(gen);
 }
 
+// Diamond
+void Terreno::diamond(int lado, double deslocamento, int limite)
+{
+    int quadrados_por_linha = (linhas - 1) / lado;
+    int quadrados_por_coluna = quadrados_por_linha;
+
+    // Loop (Diamond)
+    for (int i = 0; i < quadrados_por_coluna; i++)
+    {
+        for (int j = 0; j < quadrados_por_linha; j++)
+        {
+            // Pontas
+            int p1 = (i * lado) + (j * lado);
+            int p2 = (i * lado) + (j * lado) + lado;
+            int p3 = (i * lado) + (j * lado) + (lado * colunas);
+            int p4 = (i * lado) + (j * lado) + lado + (lado * colunas);
+            int centro = (i * lado) + (j * lado) + (lado / 2 * colunas) + (lado / 2);
+
+
+            if (altitudes[p1] < 0)
+            {
+                altitudes[p1] = random(0, limite);
+            }
+            if (altitudes[p2] < 0)
+            {
+                altitudes[p2] = random(0, limite);
+            }
+            if (altitudes[p3] < 0)
+            {
+                altitudes[p3] = random(0, limite);
+            }
+            if (altitudes[p4] < 0)
+            {
+                altitudes[p4] = random(0, limite);
+            }
+            
+            double media = (altitudes[p1] + altitudes[p2] + altitudes[p3] + altitudes[p4]) / 4;
+            double deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
+            altitudes[centro] = media + deslocamento_aleatorio;
+        }
+    }
+}
+
+// Square
+void Terreno::square(int lado, double deslocamento)
+{
+    int quadrados_por_linha = (linhas - 1) / lado;
+    int quadrados_por_coluna = quadrados_por_linha;
+
+    for (int i = 0; i < quadrados_por_coluna; i++)
+    {
+        for (int j = 0; j < quadrados_por_linha; j++)
+        {
+            // Pontas
+            int p1 = (i * lado) + (j * lado);
+            int p2 = (i * lado) + (j * lado) + lado;
+            int p3 = (i * lado) + (j * lado) + (lado * colunas);
+            int p4 = (i * lado) + (j * lado) + lado + (lado * colunas);
+            int centro = (i * lado) + (j * lado) + (lado / 2 * colunas) + (lado / 2);
+
+            // Pontos intermediários
+            int p_cima = centro - (lado / 2 * colunas);
+            int p_baixo = centro + (lado / 2 * colunas);
+            int p_direita = centro + (lado / 2);
+            int p_esquerda = centro - (lado / 2);
+
+            // Cima
+            double deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
+            if (p_cima < colunas)
+            {
+                altitudes[p_cima] = ((altitudes[p1] + altitudes[p2] + altitudes[centro]) / 3) + deslocamento_aleatorio;
+            }
+            else
+            {
+                altitudes[p_cima] = ((altitudes[p1] + altitudes[p2] + altitudes[centro] + altitudes[centro - (lado * colunas)]) / 4) + deslocamento_aleatorio;
+            }
+            if (altitudes[p_cima] < 0)
+            {
+                altitudes[p_cima] = abs(altitudes[p_cima]);
+            }
+
+            // Baixo
+            deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
+            if (p_baixo > (linhas - 1) * colunas)
+            {
+                altitudes[p_baixo] = ((altitudes[p3] + altitudes[p4] + altitudes[centro]) / 3) + deslocamento_aleatorio;
+            }
+            else
+            {
+                altitudes[p_baixo] = ((altitudes[p3] + altitudes[p4] + altitudes[centro] + altitudes[centro + (lado * colunas)]) / 4) + deslocamento_aleatorio;
+            }
+            if (altitudes[p_baixo] < 0)
+            {
+                altitudes[p_baixo] = abs(altitudes[p_baixo]);
+            }
+
+            // Direita
+            deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
+            if (p_direita % colunas == colunas - 1)
+            {
+                altitudes[p_direita] = ((altitudes[p2] + altitudes[p4] + altitudes[centro]) / 3) + deslocamento_aleatorio;
+            }
+            else
+            {
+                    altitudes[p_direita] = ((altitudes[p2] + altitudes[p4] + altitudes[centro] + altitudes[centro + lado]) / 4) + deslocamento_aleatorio;
+            }
+            if (altitudes[p_direita] < 0)
+            {
+                altitudes[p_direita] = abs(altitudes[p_direita]);
+            }
+
+            // Esquerda
+            deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
+            if (p_esquerda % colunas == 0)
+            {
+                altitudes[p_esquerda] = ((altitudes[p1] + altitudes[p3] + altitudes[centro]) / 3) + deslocamento_aleatorio;
+            }
+            else
+            {
+                altitudes[p_esquerda] = ((altitudes[p1] + altitudes[p3] + altitudes[centro] + altitudes[centro - lado]) / 4) + deslocamento_aleatorio;
+            }
+            if (altitudes[p_esquerda] < 0)
+            {
+                altitudes[p_esquerda] = abs(altitudes[p_esquerda]);
+            }
+
+        }
+    }
+}
+
+
+
+
 //Gerar mapa
 void Terreno::gerar_mapa(double rugosidade)
 {
@@ -68,131 +201,14 @@ void Terreno::gerar_mapa(double rugosidade)
 
     // Loop (Diamond-Square)
     int lado = (linhas - 1);
-    double deslocamento = 5;
+    double deslocamento = 10;
 
     while (lado > 1)
     {
-        int quadrados_por_linha = (linhas - 1) / lado;
-        int quadrados_por_coluna = quadrados_por_linha;
+        diamond(lado, deslocamento, limite);
 
-        // Loop (Diamond)
-        for (int i = 0; i < quadrados_por_coluna; i++)
-        {
-            for (int j = 0; j < quadrados_por_linha; j++)
-            {
-                // Pontas
-                int p1 = (i * lado) + (j * lado);
-                int p2 = (i * lado) + (j * lado) + lado;
-                int p3 = (i * lado) + (j * lado) + (lado * colunas);
-                int p4 = (i * lado) + (j * lado) + lado + (lado * colunas);
-                int centro = (i * lado) + (j * lado) + (lado / 2 * colunas) + (lado / 2);
+        square(lado, deslocamento);
 
-
-                if (altitudes[p1] < 0)
-                {
-                    altitudes[p1] = random(0, limite);
-                }
-                if (altitudes[p2] < 0)
-                {
-                    altitudes[p2] = random(0, limite);
-                }
-                if (altitudes[p3] < 0)
-                {
-                    altitudes[p3] = random(0, limite);
-                }
-                if (altitudes[p4] < 0)
-                {
-                    altitudes[p4] = random(0, limite);
-                }
-                
-                double media = (altitudes[p1] + altitudes[p2] + altitudes[p3] + altitudes[p4]) / 4;
-                double deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
-                altitudes[centro] = media + deslocamento_aleatorio;
-            }
-        }
-
-        // Loop (Square)
-        for (int i = 0; i < quadrados_por_coluna; i++)
-        {
-            for (int j = 0; j < quadrados_por_linha; j++)
-            {
-                // Pontas
-                int p1 = (i * lado) + (j * lado);
-                int p2 = (i * lado) + (j * lado) + lado;
-                int p3 = (i * lado) + (j * lado) + (lado * colunas);
-                int p4 = (i * lado) + (j * lado) + lado + (lado * colunas);
-                int centro = (i * lado) + (j * lado) + (lado / 2 * colunas) + (lado / 2);
-
-                // Pontos intermediários
-                int p_cima = centro - (lado / 2 * colunas);
-                int p_baixo = centro + (lado / 2 * colunas);
-                int p_direita = centro + (lado / 2);
-                int p_esquerda = centro - (lado / 2);
-
-                // Cima
-                double deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
-                if (p_cima < colunas)
-                {
-                    altitudes[p_cima] = ((altitudes[p1] + altitudes[p2] + altitudes[centro]) / 3) + deslocamento_aleatorio;
-                }
-                else
-                {
-                    altitudes[p_cima] = ((altitudes[p1] + altitudes[p2] + altitudes[centro] + altitudes[centro - (lado * colunas)]) / 4) + deslocamento_aleatorio;
-                }
-                if (altitudes[p_cima] < 0)
-                {
-                    altitudes[p_cima] = abs(altitudes[p_cima]);
-                }
-
-                // Baixo
-                deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
-                if (p_baixo > (linhas - 1) * colunas)
-                {
-                    altitudes[p_baixo] = ((altitudes[p3] + altitudes[p4] + altitudes[centro]) / 3) + deslocamento_aleatorio;
-                }
-                else
-                {
-                    altitudes[p_baixo] = ((altitudes[p3] + altitudes[p4] + altitudes[centro] + altitudes[centro + (lado * colunas)]) / 4) + deslocamento_aleatorio;
-                }
-                if (altitudes[p_baixo] < 0)
-                {
-                    altitudes[p_baixo] = abs(altitudes[p_baixo]);
-                }
-
-                // Direita
-                deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
-                if (p_direita % colunas == colunas - 1)
-                {
-                    altitudes[p_direita] = ((altitudes[p2] + altitudes[p4] + altitudes[centro]) / 3) + deslocamento_aleatorio;
-                }
-                else
-                {
-                     altitudes[p_direita] = ((altitudes[p2] + altitudes[p4] + altitudes[centro] + altitudes[centro + lado]) / 4) + deslocamento_aleatorio;
-                }
-                if (altitudes[p_direita] < 0)
-                {
-                    altitudes[p_direita] = abs(altitudes[p_direita]);
-                }
-
-                // Esquerda
-                deslocamento_aleatorio = random((-1 * deslocamento), deslocamento);
-                if (p_esquerda % colunas == 0)
-                {
-                    altitudes[p_esquerda] = ((altitudes[p1] + altitudes[p3] + altitudes[centro]) / 3) + deslocamento_aleatorio;
-                }
-                else
-                {
-                    altitudes[p_esquerda] = ((altitudes[p1] + altitudes[p3] + altitudes[centro] + altitudes[centro - lado]) / 4) + deslocamento_aleatorio;
-                }
-                if (altitudes[p_esquerda] < 0)
-                {
-                    altitudes[p_esquerda] = abs(altitudes[p_esquerda]);
-                }
-
-            }
-        }
-
-        // Atualização 
         lado = lado / 2;
         deslocamento = deslocamento * rugosidade;
     }

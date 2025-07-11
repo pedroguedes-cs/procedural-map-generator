@@ -17,6 +17,8 @@ class Terreno
         ~Terreno(); // Destrutor
 
         void gerar_mapa(double rugosidade); //Gerar mapa de altitudes
+        void Terreno::diamond(int lado, double deslocamento, int limite); // Etapa Diamond
+        void Terreno::square(int lado, double deslocamento); // Etapa Square
 
         int consulta_linhas(); // Consultar numero de linhas
         int consulta_colunas(); // consultar numero de colunas
