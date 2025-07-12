@@ -371,9 +371,10 @@ Imagem Terreno::cria_imagem(Paleta paleta)
 
             if (esta_no_sol == false)
             {
-                cor.r *= fator_de_sombreamento;
-                cor.g *= fator_de_sombreamento;
-                cor.b *= fator_de_sombreamento;
+                cor.r = (int) cor.r * fator_de_sombreamento;
+                cor.g = (int) cor.g * fator_de_sombreamento;
+                cor.b = (int) cor.b * fator_de_sombreamento;
+        
             }
 
 

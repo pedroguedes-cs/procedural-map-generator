@@ -17,6 +17,8 @@ int main()
     Terreno teste(gerador, 0.9);
     Paleta paleta;
 
-    
+    paleta.ler_arquivo(nome_arquivo_paleta);
+
+    teste.cria_imagem(paleta).salvar_imagem(nome_arquivo_imagem);
 
 }
