@@ -14,6 +14,9 @@ int main()
 
     cin >> nome_arquivo_paleta >> nome_arquivo_imagem >> gerador;
 
+    Terreno teste(gerador, 0.9);
+    Paleta paleta;
+
     
 
 }

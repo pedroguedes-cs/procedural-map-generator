@@ -20,7 +20,7 @@ class Paleta
         Paleta();
         Paleta(int quantidade1, vector<Cor> cores1, vector<double> valores1);
 
-        Paleta ler_arquivo(string nome_arquivo);
+        void ler_arquivo(string nome_arquivo);
         Cor consulta_cor(double valor);
 
 };
