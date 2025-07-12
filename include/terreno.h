@@ -1,4 +1,6 @@
 #pragma once
+#include "../include/imagem.h"
+#include "../include/paleta.h"
 #include <string>
 
 using namespace std;
@@ -25,9 +27,12 @@ class Terreno
         double consulta_altitude(int linha1, int coluna1); //Consultar altitude
 
         void salvar_terreno(string nome_arquivo); //Salvar dimensões e altitudes em um arquivo
-        void ler_terreno(string nome_arquivo); //Se houver matriz alocada, desalocar a matriz e alocar outra com as informações do arquivo    
-
+        void ler_terreno(string nome_arquivo); //Se houver matriz alocada, desalocar a matriz e alocar outra com as informações do arquivo  
+        
+        Imagem cria_imagem(Paleta paleta);
 };
+
+void sombra(int linha, int coluna);
 
 int random(int inicio_intervalo, int fim_intervalo);
 

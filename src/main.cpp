@@ -9,20 +9,11 @@ using namespace std;
 
 int main()
 {  
-    int gerador, tamanho;
-    cin >> gerador;
-    tamanho = pow(2, gerador) + 1;
+    string nome_arquivo_paleta, nome_arquivo_imagem;
+    int gerador;
 
+    cin >> nome_arquivo_paleta >> nome_arquivo_imagem >> gerador;
 
-    Terreno teste(gerador, 0.9);
+    
 
-
-    for (int i = 0; i < tamanho; i++)
-    {
-        for (int j = 0; j < tamanho; j++)
-        {
-            cout << teste.consulta_altitude(i, j) << " ";
-        }
-        cout << endl;
-    }
 }

@@ -7,30 +7,37 @@ using namespace std;
 //altura = linha
 //largura = coluna
 
-Imagem::Imagem(int largura1, int altura1)
+Imagem::Imagem(int altura1, int largura1)
 {
     altura = altura1;
     largura = largura1;
-    matriz = new Cor[altura1 * largura1];
+    matriz = new Cor*[altura1];
 
-    for(int i=0; i < altura1; i++){
-        for(int j=0; j < largura1; j++){
-            matriz[i * largura1 + j] = {0, 0, 0};
+    for (int i = 0; i < altura1; i++)
+    {
+        matriz[i] = new Cor[largura1];
+    }
+
+    for (int i = 0; i < altura1; i++)
+    {
+        for (int j = 0; j < largura1; j++)
+        {
+            matriz[i][j] = {0, 0, 0};
         }
     }
 }
 
-Cor Imagem::consulta_pixel(int largura1, int altura1)
+Cor Imagem::consulta_pixel(int linha, int coluna)
 {
-    Cor resposta = matriz[altura1 * largura + largura1];
+    Cor resposta = matriz[linha][coluna];
     return resposta;   
 }
 
-void Imagem::definir_cor(int largura1, int altura1, Cor cor_pixel)
+void Imagem::definir_cor(int linha, int coluna, Cor cor_pixel)
 {
-    matriz[altura1 * largura + largura1].r = cor_pixel.r; 
-    matriz[altura1 * largura + largura1].g = cor_pixel.g; 
-    matriz[altura1 * largura + largura1].b = cor_pixel.b; 
+    matriz[linha][coluna].r = cor_pixel.r; 
+    matriz[linha][coluna].g = cor_pixel.g; 
+    matriz[linha][coluna].b = cor_pixel.b; 
 }
 
 void Imagem::salvar_imagem(string nome_arquivo)
@@ -53,12 +60,17 @@ void Imagem::salvar_imagem(string nome_arquivo)
         {
             for (int j = 0; j < largura; j++)
             {
-                arquivo << matriz[i * largura + j].r << " " << matriz[i * largura + j].g << " " << matriz[i * largura + j].b << endl;
+                arquivo << matriz[i][j].r << " " << matriz[i][j].g << " " << matriz[i][j].b << endl;
             }
         }
     }
 }
 
-Imagem::~Imagem(){
+Imagem::~Imagem()
+{
+    for (int i = 0; i < largura; i++)
+    {
+        delete[] matriz[i];
+    }
     delete[] matriz;
-};
+}
