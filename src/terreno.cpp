@@ -352,7 +352,7 @@ Imagem Terreno::cria_imagem(Paleta paleta)
             Cor cor = paleta.consulta_cor(altitudes[i][j]);
 
             // Sombreamento
-            double fator_de_sombreamento = 0.5;
+            double fator_de_sombreamento = 0.7;
             bool esta_no_sol = true;
             int coordenada_linha = i;
             int coordenada_coluna = j;
