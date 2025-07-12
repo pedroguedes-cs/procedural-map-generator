@@ -53,12 +53,13 @@ void Paleta::ler_arquivo(string nome_arquivo)
 
 Cor Paleta::consulta_cor(double valor)
 {
-    // Verificação
+    // Verificação (valor mínimo)
     if (valores[0] > valor)
     {
         return cores[0];
     }
 
+    // Caso normal
     for (int i = 0; i < quantidade; i++)
     {
         if (valores[i] > valor)
@@ -66,5 +67,7 @@ Cor Paleta::consulta_cor(double valor)
             return cores[i - 1];
         }
     }
-    return cores[quantidade];
+
+    // Valor máximo
+    return cores[quantidade - 1];
 }
