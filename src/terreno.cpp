@@ -1,4 +1,5 @@
 #include "../include/terreno.h"
+#include "../include/paleta.h"
 #include <string>
 #include <fstream>
 #include <cmath>
@@ -339,6 +340,50 @@ void Terreno::ler_terreno(string nome_arquivo)
     }
 }
 
+// Criação da imagem
+Imagem Terreno::cria_imagem(Paleta paleta)
+{
+    Imagem imagem(linhas, colunas);
+
+    for (int i = 0; i < linhas; i++)
+    {
+        for (int j = 0; j < colunas; j++)
+        {
+            Cor cor = paleta.consulta_cor(altitudes[i][j]);
+
+            // Sombreamento
+            double fator_de_sombreamento = 0.5;
+            bool esta_no_sol = true;
+            int coordenada_linha = i;
+            int coordenada_coluna = j;
+
+            while (coordenada_linha >= 0 && coordenada_coluna >= 0)
+            {
+                if (altitudes[coordenada_linha][coordenada_coluna] > altitudes[i][j])
+                {
+                    esta_no_sol = false;
+                    break;
+                }
+
+                coordenada_linha--;
+                coordenada_coluna--;
+            }
+
+            if (esta_no_sol == false)
+            {
+                cor.r *= fator_de_sombreamento;
+                cor.g *= fator_de_sombreamento;
+                cor.b *= fator_de_sombreamento;
+            }
+
+
+            imagem.definir_cor(i, j, cor);
+        }
+    }
+
+    return imagem;
+}
+
 
 // Função que gera números aleatórios
 int random(int inicio_intervalo, int fim_intervalo)
@@ -349,3 +394,5 @@ int random(int inicio_intervalo, int fim_intervalo)
     return distrib(gen);
     return distrib(gen);
 }
+
+
