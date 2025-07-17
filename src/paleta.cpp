@@ -3,11 +3,13 @@
 
 using namespace std;
 
-int Paleta::get_quant() 
-{ 
-    return quantidade; 
-}
+/** Construtor padrão:
+    Inicializa os elementos da paleta da seguinte:
+        quantidade = 0;
+        todas as cores do vector cores = 0;
+        todos os valores do vector valores = 0.
 
+*/
 Paleta::Paleta()
 {
     quantidade = 0;
@@ -15,6 +17,12 @@ Paleta::Paleta()
     valores = {};
 }
 
+/** Construtor parametrizado. 
+    Recebe: 
+        @quantidade1 - Quantidade de cores na paleta;  
+        @cores1 - vector de cores;
+        @valores1 - vector de valores.
+*/
 Paleta::Paleta(int quantidade1, vector<Cor> cores1, vector<double> valores1)
 {
     quantidade = quantidade1;
@@ -22,6 +30,23 @@ Paleta::Paleta(int quantidade1, vector<Cor> cores1, vector<double> valores1)
     valores = valores1;
 }
 
+/** Consultar quanidade 
+    Retorna:
+        @quantidade - quantidade de cores na paleta;
+*/
+int Paleta::consulta_quantidade() 
+{ 
+    return quantidade; 
+}
+
+/** Ler arquivo
+    Recebe:
+        @nome_arquivo - Nome do arquivo que será lido;
+    Explicação:
+        Lê o conteúdo do arquivo e armazena o valores na Paleta;
+        Lê a primeira linha e armazena em @quantidade;
+        Lê linha a linha até o final do arquivo e armazena em @valores[l] e @cores[l].
+*/
 void Paleta::ler_arquivo(string nome_arquivo)
 {
     ifstream arquivo(nome_arquivo);
@@ -51,6 +76,14 @@ void Paleta::ler_arquivo(string nome_arquivo)
     }
 }
 
+/** Consulta cor
+    Recebe:
+        @valor - Valor que será consultado na paleta;
+    Retorna:
+        @cor - Cor correspondente ao inicio de intervalo;
+    Explicação
+        Verefica em que intervalo o @valor se encontra e retorna a @cor correspondente ao incio do intervalor;
+*/
 Cor Paleta::consulta_cor(double valor)
 {
     // Verificação (valor mínimo)
