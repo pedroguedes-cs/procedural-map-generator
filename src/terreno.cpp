@@ -7,7 +7,10 @@
 using namespace std;
 
 
-//Construtor padrão
+/** Construtor padrão
+    obs:
+        Tamanho padrão = (3 x 3)
+*/
 Terreno::Terreno()
 {
     int padrao = 3;
@@ -35,7 +38,12 @@ Terreno::Terreno()
 }
 
 
-// Construtor parametrizado
+
+/** Construtor parametrizado
+    recebe:
+        @gerador - O n que gerará o tamanho [2^n + 1]
+        @rugosidade - O fator que reduz o deslocamento a cada iteração
+*/
 Terreno::Terreno(int gerador, double rugosidade)
 {
     int tamanho = pow(2, gerador) + 1;
@@ -63,7 +71,11 @@ Terreno::Terreno(int gerador, double rugosidade)
 }
 
 
-//Destrutor
+
+/** Destrutor
+    obs:
+        Como adotamos o formato ponteiro de ponteiros, precisamos deletar  cada "ponteiro-elemento"
+*/
 Terreno::~Terreno()
 {
     // Liberando memória
@@ -74,8 +86,13 @@ Terreno::~Terreno()
     delete[] altitudes;
 }
 
-// Diamond
-void Terreno::diamond(int lado, int deslocamento, int limite)
+
+/** Aplica o a "Etapa Diamond" no terreno
+    recebe:
+        @ lado - tamanho do lado na iteração atual [permite definir a quantidade de sub-quadrados]
+        @ deslocamento - deslocamento da iteração atual [necessário para definir o deslocamento-aleatório do ponto central]
+*/
+void Terreno::diamond(int lado, int deslocamento)
 {
     int linhas_de_quadrados = (linhas - 1) / lado;
     int colunas_de_quadrados = linhas_de_quadrados;
@@ -102,7 +119,11 @@ void Terreno::diamond(int lado, int deslocamento, int limite)
 }
 
 
-// Square
+/** Aplica o a "Etapa Square" no terreno
+    recebe:
+        @ lado - tamanho do lado na iteração atual [permite definir a quantidade de sub-quadrados]
+        @ deslocamento - deslocamento da iteração atual [necessário para definir o deslocamento-aleatório dos pontos ortogonais]
+*/
 void Terreno::square(int lado, int deslocamento)
 {
     int linhas_de_quadrados = (linhas - 1) / lado;
@@ -231,7 +252,11 @@ void Terreno::square(int lado, int deslocamento)
 
 }
 
-// Diamond-Square
+
+/** União das etapas Diamond e Square
+    recebe:
+        @ rugosidade - O fator que reduz o deslocamento a cada iteração
+*/
 void Terreno::gerar_mapa(double rugosidade)
 {
     int deslocamento = 10;
@@ -248,7 +273,7 @@ void Terreno::gerar_mapa(double rugosidade)
 
     while(lado > 1)
     {
-        diamond(lado, deslocamento, limite);
+        diamond(lado, deslocamento);
         square(lado, deslocamento);
 
         lado = lado / 2;
@@ -257,25 +282,35 @@ void Terreno::gerar_mapa(double rugosidade)
 }
 
 
-//Consultar linhas
+/** Retorna a quatidade de linhas / altura do terreno */
 int Terreno::consulta_linhas()
 {
     return linhas;
 }
 
-//Consultar colunas
+
+/** Retorna a quatidade de colunas / largura do terreno */
 int Terreno::consulta_colunas()
 {
     return colunas;
 }
 
-//Consultar altitude
+
+/** Retorna a altitude em um pixel específico
+    recebe:
+        @linha1 - coordenada Y do pixel
+        @coluna1 - coordenada X do pixel
+*/
 double Terreno::consulta_altitude(int linha1, int coluna1)
 {
     return altitudes[linha1][coluna1];
 }
 
-//Salvar terreno em um arquivo
+
+/** Salva um terreno em um arquivo '.txt'
+    recebe:
+        @nome_arquivo - nome do arquivo que receberá o terreno
+*/
 void Terreno::salvar_terreno(string nome_arquivo)
 {
     ofstream arquivo(nome_arquivo, ios::out | ios::trunc);
@@ -299,7 +334,11 @@ void Terreno::salvar_terreno(string nome_arquivo)
     }
 }
 
-//Ler um arquivo e retornar um terreno
+
+/** Ler um arquivo que possui um terreno e armazena no terreno que recebeu o método
+    recebe:
+        @nome_arquivo - nome do arquivo que receberá o terreno
+*/
 void Terreno::ler_terreno(string nome_arquivo)
 {
     ifstream arquivo(nome_arquivo);
@@ -340,7 +379,11 @@ void Terreno::ler_terreno(string nome_arquivo)
     }
 }
 
-// Criação da imagem
+
+/** Transforma o terreno em uma imagem
+    recebe:
+        @paleta - determina a cor que cada pixel vai ter com base na sua altitude
+*/
 Imagem Terreno::cria_imagem(Paleta paleta)
 {
     Imagem imagem(linhas, colunas);
@@ -386,7 +429,11 @@ Imagem Terreno::cria_imagem(Paleta paleta)
 }
 
 
-// Função que gera números aleatórios
+/** Gera um número inteiro aleatório no intervalo definido
+    recebe:
+        @inicio_intervalo - inicío do intervalo
+        @fim_intervalo - fim do intervalo
+*/
 int random(int inicio_intervalo, int fim_intervalo)
 {
     static random_device rd;

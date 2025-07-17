@@ -18,9 +18,9 @@ class Terreno
         Terreno(int gerador, double rugosidade); //Construtor parametrizado
         ~Terreno(); // Destrutor
 
-        void gerar_mapa(double rugosidade); //Gerar mapa de altitudes
-        void diamond(int lado, int deslocamento, int limite); // Etapa Diamond
+        void diamond(int lado, int deslocamento); // Etapa Diamond
         void square(int lado, int deslocamento); // Etapa Square
+        void gerar_mapa(double rugosidade); //Gerar mapa de altitudes
 
         int consulta_linhas(); // Consultar numero de linhas
         int consulta_colunas(); // consultar numero de colunas
@@ -31,8 +31,6 @@ class Terreno
         
         Imagem cria_imagem(Paleta paleta);
 };
-
-void sombra(int linha, int coluna);
 
 int random(int inicio_intervalo, int fim_intervalo);
 
