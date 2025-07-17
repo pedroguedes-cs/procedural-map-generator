@@ -51,6 +51,7 @@ void Paleta::ler_arquivo(string nome_arquivo)
     }
 }
 
+// 
 Cor Paleta::consulta_cor(double valor)
 {
     // Verificação (valor mínimo)

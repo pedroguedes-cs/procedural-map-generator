@@ -4,9 +4,12 @@
 
 using namespace std;
 
-//altura = linha
-//largura = coluna
 
+/** Construtor parametrizado
+    recebe:
+        @altura1  - coordenada Y do pixel
+        @largura1 - coordenada X do pixel
+*/
 Imagem::Imagem(int altura1, int largura1)
 {
     altura = altura1;
@@ -27,12 +30,37 @@ Imagem::Imagem(int altura1, int largura1)
     }
 }
 
+/** Destrutor
+    obs:
+        Como adotamos o formato ponteiro de ponteiros, precisamos deletar  cada "ponteiro-elemento"
+*/
+Imagem::~Imagem()
+{
+    for (int i = 0; i < largura; i++)
+    {
+        delete[] matriz[i];
+    }
+    delete[] matriz;
+}
+
+/** Retorna a cor de um pixel específico
+    recebe:
+        @linha  - coordenada Y do pixel
+        @coluna - coordenada X do pixel
+*/
 Cor Imagem::consulta_pixel(int linha, int coluna)
 {
     Cor resposta = matriz[linha][coluna];
     return resposta;   
 }
 
+
+/** Altera a cor de um pixel específico
+    recebe:
+        @linha  - coordenada Y do pixel
+        @coluna - coordenada X do pixel
+        @cor_pixel - cor a ser aplicada
+*/
 void Imagem::definir_cor(int linha, int coluna, Cor cor_pixel)
 {
     matriz[linha][coluna].r = cor_pixel.r; 
@@ -40,6 +68,11 @@ void Imagem::definir_cor(int linha, int coluna, Cor cor_pixel)
     matriz[linha][coluna].b = cor_pixel.b; 
 }
 
+
+/** Salva uma imagem em um arquivo 'ppm'
+    recebe:
+        @nome_arquivo - nome do arquivo que receberá a imagem
+*/
 void Imagem::salvar_imagem(string nome_arquivo)
 {
     ofstream arquivo(nome_arquivo, ios::out | ios::trunc);
@@ -64,13 +97,4 @@ void Imagem::salvar_imagem(string nome_arquivo)
             }
         }
     }
-}
-
-Imagem::~Imagem()
-{
-    for (int i = 0; i < largura; i++)
-    {
-        delete[] matriz[i];
-    }
-    delete[] matriz;
 }
