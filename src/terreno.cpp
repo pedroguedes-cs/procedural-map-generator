@@ -1,5 +1,6 @@
 #include "../include/terreno.h"
 #include "../include/paleta.h"
+#include "../include/ponto.h"
 #include <string>
 #include <fstream>
 #include <cmath>
@@ -8,7 +9,7 @@ using namespace std;
 
 
 /** Construtor padrão
-    obs:
+    Observação:
         Tamanho padrão = (3 x 3)
 */
 Terreno::Terreno()
@@ -40,7 +41,7 @@ Terreno::Terreno()
 
 
 /** Construtor parametrizado
-    recebe:
+    Recebe:
         @gerador - O n que gerará o tamanho [2^n + 1]
         @rugosidade - O fator que reduz o deslocamento a cada iteração
 */
@@ -254,8 +255,8 @@ void Terreno::square(int lado, int deslocamento)
 
 
 /** União das etapas Diamond e Square
-    recebe:
-        @ rugosidade - O fator que reduz o deslocamento a cada iteração
+    Recebe:
+        @rugosidade - O fator que reduz o deslocamento a cada iteração
 */
 void Terreno::gerar_mapa(double rugosidade)
 {
@@ -282,24 +283,32 @@ void Terreno::gerar_mapa(double rugosidade)
 }
 
 
-/** Retorna a quatidade de linhas / altura do terreno */
+/** Consultar linhas
+    Retorna:
+        @linhas - Quantidade de linhas/altura do terreno.
+ */
 int Terreno::consulta_linhas()
 {
     return linhas;
 }
 
 
-/** Retorna a quatidade de colunas / largura do terreno */
+/** Consultar linhas
+    Retorna:
+        @colunas - Quantidade de colunas/largura do terreno.
+ */
 int Terreno::consulta_colunas()
 {
     return colunas;
 }
 
 
-/** Retorna a altitude em um pixel específico
-    recebe:
-        @linha1 - coordenada Y do pixel
-        @coluna1 - coordenada X do pixel
+/** Consultar altitude
+    Recebe:
+        @linha1 - coordenada Y do pixel;
+        @coluna1 - coordenada X do pixel.
+    Retorna:
+        @altitude - altitude especifica no pixel de coordenadas recebidas.
 */
 double Terreno::consulta_altitude(int linha1, int coluna1)
 {
@@ -308,7 +317,7 @@ double Terreno::consulta_altitude(int linha1, int coluna1)
 
 
 /** Salva um terreno em um arquivo '.txt'
-    recebe:
+    Recebe:
         @nome_arquivo - nome do arquivo que receberá o terreno
 */
 void Terreno::salvar_terreno(string nome_arquivo)
@@ -336,7 +345,7 @@ void Terreno::salvar_terreno(string nome_arquivo)
 
 
 /** Ler um arquivo que possui um terreno e armazena no terreno que recebeu o método
-    recebe:
+    Recebe:
         @nome_arquivo - nome do arquivo que receberá o terreno
 */
 void Terreno::ler_terreno(string nome_arquivo)
@@ -381,7 +390,7 @@ void Terreno::ler_terreno(string nome_arquivo)
 
 
 /** Transforma o terreno em uma imagem
-    recebe:
+    Recebe:
         @paleta - determina a cor que cada pixel vai ter com base na sua altitude
 */
 Imagem Terreno::cria_imagem(Paleta paleta)
@@ -430,11 +439,11 @@ Imagem Terreno::cria_imagem(Paleta paleta)
 
 
 /** Gera um número inteiro aleatório no intervalo definido
-    recebe:
+    Recebe:
         @inicio_intervalo - inicío do intervalo
         @fim_intervalo - fim do intervalo
 */
-int random(int inicio_intervalo, int fim_intervalo)
+int Terreno::random(int inicio_intervalo, int fim_intervalo)
 {
     static random_device rd;
     static mt19937 gen(rd());

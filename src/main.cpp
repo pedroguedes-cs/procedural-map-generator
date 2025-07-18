@@ -11,8 +11,15 @@ int main()
 {  
     string nome_arquivo_paleta, nome_arquivo_imagem;
     int gerador;
-
-    cin >> nome_arquivo_paleta >> nome_arquivo_imagem >> gerador;
+    
+    cout << "Informe o nome do arquivo que contem a paleta de cores: ";
+    cin >> nome_arquivo_paleta;
+    
+    cout << "Informe o valor para gerar a imagem: ";
+    cin >> gerador;
+    
+    cout << "Informe o nome do arquivo onde a imagem será salva: ";
+    cin >> nome_arquivo_imagem;
 
     Terreno teste(gerador, 0.9);
     Paleta paleta;
