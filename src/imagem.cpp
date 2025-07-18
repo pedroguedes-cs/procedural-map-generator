@@ -6,9 +6,9 @@ using namespace std;
 
 
 /** Construtor parametrizado
-    recebe:
-        @altura1  - coordenada Y do pixel
-        @largura1 - coordenada X do pixel
+    Recebe:
+        @altura1  - coordenada Y do pixel;
+        @largura1 - coordenada X do pixel.
 */
 Imagem::Imagem(int altura1, int largura1)
 {
@@ -31,7 +31,7 @@ Imagem::Imagem(int altura1, int largura1)
 }
 
 /** Destrutor
-    obs:
+    Explicação:
         Como adotamos o formato ponteiro de ponteiros, precisamos deletar  cada "ponteiro-elemento"
 */
 Imagem::~Imagem()
@@ -44,9 +44,11 @@ Imagem::~Imagem()
 }
 
 /** Retorna a cor de um pixel específico
-    recebe:
-        @linha  - coordenada Y do pixel
-        @coluna - coordenada X do pixel
+    Recebe:
+        @linha  - coordenada Y do pixel;
+        @coluna - coordenada X do pixel;
+    Retorna:
+        @cor - cor do pixel nas coordenadas.
 */
 Cor Imagem::consulta_pixel(int linha, int coluna)
 {
@@ -56,7 +58,7 @@ Cor Imagem::consulta_pixel(int linha, int coluna)
 
 
 /** Altera a cor de um pixel específico
-    recebe:
+    Recebe:
         @linha  - coordenada Y do pixel
         @coluna - coordenada X do pixel
         @cor_pixel - cor a ser aplicada
@@ -70,7 +72,7 @@ void Imagem::definir_cor(int linha, int coluna, Cor cor_pixel)
 
 
 /** Salva uma imagem em um arquivo 'ppm'
-    recebe:
+    Recebe:
         @nome_arquivo - nome do arquivo que receberá a imagem
 */
 void Imagem::salvar_imagem(string nome_arquivo)
