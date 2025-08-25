@@ -11,8 +11,7 @@ The program generates a **PPM image** representing the terrain, where each pixel
 
 ---
 
-## 🚀 Roadmap
-- [ ] Add **README**, **Makefile**, **.gitignore**, and **LICENSE**  
+## 🚀 Roadmap  
 - [ ] Add **menu** for user customization  
 - [ ] Add **build instructions**  
 - [ ] Add **photos/** folder with example generated maps  
