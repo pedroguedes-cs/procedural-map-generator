@@ -11,7 +11,14 @@ The program generates a **PPM image** representing the terrain, where each pixel
 
 ---
 
-## 🚀 Roadmap  
+## 🕑 Project History
+This project is a continuation of a previous assignment developed in the course *Introduction to Programming Techniques*.  
+The current version focuses on refactoring and adding new features.
+
+---
+
+## 🚀 Roadmap
+- [ ] Refactor and improve existing codebase 
 - [ ] Add **menu** for user customization  
 - [ ] Add **build instructions**  
 - [ ] Add **photos/** folder with example generated maps  
