@@ -20,6 +20,4 @@ The program generates a **PPM image** representing the terrain, where each pixel
 ---
 
 ## 🚧 Status
-Project under development 🚧  
-
----
+Project under development 
