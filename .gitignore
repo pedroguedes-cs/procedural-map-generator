@@ -1,0 +1,14 @@
+# Ignore all files by default
+*
+
+!*/
+!*.cpp
+!*.h
+!*.hpp
+!*.md
+!*.txt
+!Makefile
+!.gitignore
+
+# Ignore VS Code settings
+.vscode/
