@@ -27,6 +27,7 @@ class Map
 
         void free_map();
         void alocate_map();
+        void clear();
 
         int get_lines();
         int get_columns(); 

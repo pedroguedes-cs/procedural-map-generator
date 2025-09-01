@@ -105,6 +105,16 @@ void Map::free_map()
     delete[] heights;
 }
 
+void Map::clear()
+{
+    lines = 0;
+    columns = 0;
+    roughness_factor = 0;
+    shade_factor = 0;
+    active = false;
+    free_map();
+}
+
 // Getters
 int Map::get_lines()
 {

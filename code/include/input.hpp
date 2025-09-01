@@ -10,8 +10,6 @@ int read_width();
 
 int read_height();
 
-int read_size();
-
 float read_shade();
 
 float read_roughness();
