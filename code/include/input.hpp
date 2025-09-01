@@ -6,9 +6,9 @@
 
 int read_choice();
 
-int read_width();
+int read_lines();
 
-int read_height();
+int read_columns();
 
 float read_shade();
 

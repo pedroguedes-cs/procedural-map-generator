@@ -23,17 +23,17 @@ int read_choice()
     }
 }
 
-int read_width()
+int read_lines()
 {
-    int width;
+    int lines;
 
     while (true)
     {
-        std::cout << "Width: ";
+        std::cout << "Lines: ";
 
-        if (std::cin >> width && width >= 1)
+        if (std::cin >> lines && lines >= 1)
         {
-            return width;
+            return lines;
         }
     
         std::cin.clear(); // Clear fail state
@@ -43,17 +43,17 @@ int read_width()
     }
 }
 
-int read_height()
+int read_columns()
 {
-    int height;
+    int columns;
 
     while (true)
     {
-        std::cout << "Height: ";
+        std::cout << "Columns: ";
 
-        if (std::cin >> height && height >= 1)
+        if (std::cin >> columns && columns >= 1)
         {
-            return height;
+            return columns;
         }
     
         std::cin.clear(); // Clear fail state

@@ -15,8 +15,10 @@ Map::Map()
 
     lines = default_size;
     columns = default_size;
-    effects.roughness_factor = 0.5;
-    effects.shade_factor = 0.5;
+    roughness_factor = 0;
+    shade_factor = 0;
+    active = false;
+    terrain_generated = false;
 
     
     // Matriz de heights (3x3)
@@ -44,6 +46,9 @@ Map::Map(int lines, int columns, double roughness, double shade)
     this->columns = columns;
     this->roughness_factor = roughness;
     this->shade_factor = shade;
+
+    active = true;
+    terrain_generated = false;
 
     valid_size = next_valid_size(std::max(lines, columns));
 
@@ -112,6 +117,7 @@ void Map::clear()
     roughness_factor = 0;
     shade_factor = 0;
     active = false;
+    terrain_generated = false;
     free_map();
 }
 
@@ -141,6 +147,11 @@ bool Map::get_active()
     return active;
 }
 
+bool Map::get_terrain_generated()
+{
+    return terrain_generated;
+}
+
 double Map::get_pixel_height(int line, int column)
 {
     return heights[line][column];
@@ -167,15 +178,21 @@ void Map::set_shade_factor(double shade)
     shade_factor = shade;
 }
 
-void Map::set_valid_size(int lines, int columns)
+void Map::set_terrain_generated(bool status)
 {
-    valid_size = next_valid_size(std::max(lines, columns));
+    terrain_generated = status;
 }
 
 void Map::set_active(bool status)
 {
     active = status;
 }
+
+void Map::set_valid_size(int lines, int columns)
+{
+    valid_size = next_valid_size(std::max(lines, columns));
+}
+
 
 // Map Operations
 void Map::diamond(int side_length, int displacement)
@@ -352,8 +369,10 @@ void Map::generate_map_terrain()
         square(side, displacement);
 
         side = side / 2;
-        displacement = displacement * effects.roughness_factor;
+        displacement = displacement * roughness_factor;
     }
+
+    terrain_generated = true;
 }
 
 void Map::save_map(std::string file_name)

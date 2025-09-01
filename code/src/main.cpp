@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <cmath>
 
 #include "../include/color.hpp"
 #include "../include/image.hpp"
@@ -16,6 +15,15 @@
 
 int main()
 {  
+    Map map();
+    Palette palette;
+    palette.load_from_file();
 
+    while (true)
+    {
+
+    }
+
+    
     return 0;
 }
