@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "map.hpp"
+
 int read_choice();
 
 int read_width();
@@ -10,7 +12,11 @@ int read_height();
 
 int read_size();
 
-int read_palette_choice();
+float read_shade();
 
-int read_effects();
+float read_roughness();
+
+Map read_map();
+
+int read_palette_choice();
 

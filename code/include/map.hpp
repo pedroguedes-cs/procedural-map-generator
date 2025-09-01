@@ -6,11 +6,20 @@
 #include "palette.hpp"
 
 
+
+struct Effects
+{
+    double shade_factor;
+    double roughness_factor;
+};
+
+
 class Map
 {
     int lines;
     int columns;
     double **heights;
+    Effects effects;
 
     void diamond(int side_length, int displacement); /** Etapa Diamond */
     void square(int side_length, int displacement); /** Etapa Square */
