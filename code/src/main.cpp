@@ -15,15 +15,102 @@
 
 int main()
 {  
-    Map map();
+    Map map;
     Palette palette;
-    palette.load_from_file();
+    palette.load_from_file("../../palettes/earthy.txt");
+    bool exit = false;
+
+    title("PROCEDURAL MAP GENERATOR");
 
     while (true)
     {
+        print_menu();
+        int choice = read_choice();
 
+        print_line();
+
+        switch(choice)
+        {
+            case 1:
+                subtitle("MAP:");
+                map.free_map();
+                map = read_map();
+                map.set_active(true);
+                map.set_terrain_generated(false);
+                saved();
+
+            case 2:
+                print_palette_menu();
+                int palette_choice = read_palette_choice();
+                
+                switch(palette_choice)
+                {
+                    case 1: 
+                        palette.load_from_file("../../palettes/earthy.txt");
+                        break;
+                    case 2: 
+                        palette.load_from_file("../../palettes/hot.txt");
+                        break;
+                    case 3:
+                        palette.load_from_file("../../palettes/cold.txt");
+                        break;
+                    case 4:
+                        palette.load_from_file("../../palettes/grey.txt");
+                        break;
+                    case 5:
+                        palette.load_from_file("../../palettes/neon.txt");
+                        break;
+                    case 6:
+                        palette.load_from_file("../../palettes/pastel.txt");
+                        break;
+                }
+                saved();
+                break;
+
+            case 3:
+                print_overview(map, palette);
+                break;
+
+            case 4:
+                if (map.get_active())
+                {
+                    map.generate_map_terrain();
+                    map.set_terrain_generated(true);
+                    saved();
+                }
+                else
+                {
+                    set_first();
+                }
+                break;
+
+            case 5:
+                if (map.get_active() && map.get_terrain_generated())
+                {
+                    map.generate_image(palette);
+                    image_generated();
+                }
+                else
+                {
+                    generate_first();
+                }
+                break;
+
+            case 6:
+                exit = true;
+                exiting();
+                break;
+        }
+
+        if (exit)
+        {
+            break;
+        }
     }
 
-    
+
+    bye();
+
+
     return 0;
 }

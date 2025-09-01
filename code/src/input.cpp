@@ -105,10 +105,12 @@ float read_roughness()
 
 Map read_map()
 {
-    read_width();
-    read_height();
-    read_roughness();
-    read_shade();
+    int lines = read_lines();
+    int columns = read_columns();
+    int roughness = read_roughness();
+    int shade = read_shade();
+
+    return {lines, columns, roughness, shade};
 }
 
 int read_palette_choice()
