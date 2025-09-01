@@ -105,6 +105,7 @@ int main()
                 if (map.get_active() && map.get_terrain_generated())
                 {
                     (map.generate_image(palette)).save_image(filename.folder + std::to_string(filename.number) + filename.type);
+                    filename.number++;
                     image_generated();
                 }
                 else
