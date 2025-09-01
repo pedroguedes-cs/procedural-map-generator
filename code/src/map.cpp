@@ -38,24 +38,27 @@ Map::Map()
 
 }
 
-Map::Map(int lines, int columns, Effects effects)
+Map::Map(int lines, int columns, double roughness, double shade)
 {
     this->lines = lines;
     this->columns = columns;
-    this->effects = effects;
+    this->roughness_factor = roughness;
+    this->shade_factor = shade;
+
+    valid_size = next_valid_size(std::max(lines, columns));
 
     // Matriz de heights
-    heights = new double*[lines];
+    heights = new double*[valid_size];
     
-    for(int i = 0; i < lines; i++)
+    for(int i = 0; i < valid_size; i++)
     {
-        heights[i] = new double[columns];
+        heights[i] = new double[valid_size];
     }
 
     // Inicializando valores
-    for (int i = 0; i < lines; i++)
+    for (int i = 0; i < valid_size; i++)
     {
-        for (int j = 0; j < columns; j++)
+        for (int j = 0; j < valid_size; j++)
         {
             heights[i][j] = -1;
         }
@@ -63,6 +66,36 @@ Map::Map(int lines, int columns, Effects effects)
 }
 
 Map::~Map()
+{
+    // Liberando memória
+    for (int i = 0; i < lines; i++)
+    {
+        delete[] heights[i];
+    }
+    delete[] heights;
+}
+
+// Functions to reuse
+void Map::alocate_map()
+{
+    heights = new double*[valid_size];
+
+    for (int i = 0; i < valid_size; i++)
+    {
+        heights[i] = new double[valid_size];
+    }
+
+    // Inicializando valores
+    for (int i = 0; i < valid_size; i++)
+    {
+        for (int j = 0; j < valid_size; j++)
+        {
+            heights[i][j] = -1;
+        }
+    }
+}
+
+void Map::free_map()
 {
     // Liberando memória
     for (int i = 0; i < lines; i++)
@@ -83,15 +116,61 @@ int Map::get_columns()
     return columns;
 }
 
+double Map::get_roughness_factor()
+{
+    return roughness_factor;
+}
+
+double Map::get_shade_factor()
+{
+    return shade_factor;
+}
+
+bool Map::get_active()
+{
+    return active;
+}
+
 double Map::get_pixel_height(int line, int column)
 {
     return heights[line][column];
 }
 
+// Setters
+void Map::set_lines(int lines)
+{
+    this->lines = lines;
+}
+
+void Map::set_columns(int columns)
+{
+    this->columns = columns;
+}
+
+void Map::set_roughness_factor(double roughness)
+{
+    roughness_factor = roughness;
+}
+
+void Map::set_shade_factor(double shade)
+{
+    shade_factor = shade;
+}
+
+void Map::set_valid_size(int lines, int columns)
+{
+    valid_size = next_valid_size(std::max(lines, columns));
+}
+
+void Map::set_active(bool status)
+{
+    active = status;
+}
+
 // Map Operations
 void Map::diamond(int side_length, int displacement)
 {
-    int squares_per_height = (lines - 1) / side_length;
+    int squares_per_height = (valid_size - 1) / side_length;
     int squares_per_width = squares_per_height;
 
     // Passando por cada quadrado + executando o Diamond
@@ -117,7 +196,7 @@ void Map::diamond(int side_length, int displacement)
 
 void Map::square(int side_length, int displacement)
 {
-    int squares_per_height = (lines - 1) / side_length;
+    int squares_per_height = (valid_size - 1) / side_length;
     int squares_per_width = squares_per_height;
 
     // Passando por cada quadrado + executando o Square
@@ -246,7 +325,7 @@ void Map::square(int side_length, int displacement)
 void Map::generate_map_terrain()
 {
     int displacement = 10;
-    int side = lines - 1;
+    int side = valid_size - 1;
 
     // corners iniciais
     int limit = 100;

@@ -8,18 +8,19 @@
 
 class Image
 {
-    int width;
-    int height;
-    Color** bitmap;
+    private:
+        int width;
+        int height;
+        Color** bitmap;
 
     public:
-        Image(int width, int height); // Construtor
-        ~Image(); //Destrutor
+        Image(int width, int height); 
+        ~Image();
 
-        Color get_pixel_color(int line, int column); //Consulta de pixel da Image
+        Color get_pixel_color(int line, int column); 
 
-        void set_color(int line, int column, Color color); // Definir pixel na Image
+        void set_color(int line, int column, Color color); 
 
-        void save_image(std::string file_name); //Salvar Image em PPM
+        void save_image(std::string file_name); 
 };
 
