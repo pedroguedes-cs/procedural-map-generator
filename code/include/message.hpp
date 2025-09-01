@@ -1,6 +1,6 @@
 #pragma once 
 
-void info_saved();
+void saved();
 
 void image_generated();
 
