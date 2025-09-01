@@ -18,8 +18,8 @@ The current version focuses on refactoring and adding new features.
 ---
 
 ## 🚀 Roadmap
-- [ ] Refactor and improve existing codebase 
-- [ ] Add **menu** for user customization  
+- [x] Refactor and improve existing codebase 
+- [x] Add **menu** for user customization  
 - [ ] Add **build instructions**  
 - [ ] Add **photos/** folder with example generated maps  
 
