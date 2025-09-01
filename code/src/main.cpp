@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 #include <cmath>
-#include "../include/imagem.h"
-#include "../include/paleta.h"
-#include "../include/terreno.h"
+#include "../include/image.h"
+#include "../include/palette.h"
+#include "../include/map.h"
 
 using namespace std;
 

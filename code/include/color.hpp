@@ -1,6 +1,6 @@
 #pragma once
 
-struct Cor
+struct Color
 {
     int r;
     int g;

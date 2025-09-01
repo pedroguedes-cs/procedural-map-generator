@@ -7,8 +7,10 @@
 !*.hpp
 !*.md
 !*.txt
-!Makefile
 !.gitignore
 
 # Ignore VS Code settings
 .vscode/
+
+# Ignore build directory
+/build/
