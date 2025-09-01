@@ -1,23 +1,23 @@
-#include "../include/map.hpp"
-#include "../include/palette.hpp"
-#include "../include/point.hpp"
 #include <string>
 #include <fstream>
 #include <cmath>
-#include <random>
-using namespace std;
+
+#include "../include/map.hpp"
+#include "../include/palette.hpp"
+#include "../include/point.hpp"
+#include "../include/utilities.hpp"
 
 
-/** Construtor padrão
-    Observação:
-        size padrão = (3 x 3)
-*/
+// Constructors and destructor
 Map::Map()
 {
     int default_size = 3;
 
     lines = default_size;
     columns = default_size;
+    effects.roughness_factor = 0.5;
+    effects.shade_factor = 0.5;
+
     
     // Matriz de heights (3x3)
     heights = new double*[default_size];
@@ -38,45 +38,30 @@ Map::Map()
 
 }
 
-
-
-/** Construtor parametrizado
-    Recebe:
-        @gerador - O n que gerará o size [2^n + 1]
-        @roughness - O fator que reduz o displacement a cada iteração
-*/
-Map::Map(int generator, double roughness)
+Map::Map(int lines, int columns, Effects effects)
 {
-    int size = pow(2, generator) + 1;
-    lines = size;
-    columns = size;
+    this->lines = lines;
+    this->columns = columns;
+    this->effects = effects;
 
     // Matriz de heights
-    heights = new double*[size];
+    heights = new double*[lines];
     
-    for(int i = 0; i < size; i++)
+    for(int i = 0; i < lines; i++)
     {
-        heights[i] = new double[size];
+        heights[i] = new double[columns];
     }
 
     // Inicializando valores
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < lines; i++)
     {
-        for (int j = 0; j < size; j++)
+        for (int j = 0; j < columns; j++)
         {
             heights[i][j] = -1;
         }
     }
-
-    generate_map(roughness);
 }
 
-
-
-/** Destrutor
-    obs:
-        Como adotamos o formato ponteiro de ponteiros, precisamos deletar  cada "ponteiro-elemento"
-*/
 Map::~Map()
 {
     // Liberando memória
@@ -87,12 +72,23 @@ Map::~Map()
     delete[] heights;
 }
 
+// Getters
+int Map::get_lines()
+{
+    return lines;
+}
 
-/** Aplica o a "Etapa Diamond" no Map
-    recebe:
-        @ side - size do side na iteração atual [permite definir a quantidade de sub-quadrados]
-        @ displacement - displacement da iteração atual [necessário para definir o displacement-aleatório do Point central]
-*/
+int Map::get_columns()
+{
+    return columns;
+}
+
+double Map::get_pixel_height(int line, int column)
+{
+    return heights[line][column];
+}
+
+// Map Operations
 void Map::diamond(int side_length, int displacement)
 {
     int squares_per_height = (lines - 1) / side_length;
@@ -119,12 +115,6 @@ void Map::diamond(int side_length, int displacement)
     }
 }
 
-
-/** Aplica o a "Etapa Square" no Map
-    recebe:
-        @ side_length - size do side_length na iteração atual [permite definir a quantidade de sub-quadrados]
-        @ displacement - displacement da iteração atual [necessário para definir o displacement-aleatório dos Points ortogonais]
-*/
 void Map::square(int side_length, int displacement)
 {
     int squares_per_height = (lines - 1) / side_length;
@@ -253,18 +243,13 @@ void Map::square(int side_length, int displacement)
 
 }
 
-
-/** União das etapas Diamond e Square
-    Recebe:
-        @roughness - O fator que reduz o displacement a cada iteração
-*/
-void Map::generate_map(double roughness)
+void Map::generate_map_terrain()
 {
     int displacement = 10;
     int side = lines - 1;
 
     // corners iniciais
-    int limit = 21;
+    int limit = 100;
     heights[0][0] = random(0, limit);
     heights[0][side] = random(0, limit);
     heights[side][0] = random(0, limit);
@@ -278,51 +263,13 @@ void Map::generate_map(double roughness)
         square(side, displacement);
 
         side = side / 2;
-        displacement = displacement * roughness;
+        displacement = displacement * effects.roughness_factor;
     }
 }
 
-
-/** Consouthtar lines
-    Retorna:
-        @lines - Quantidade de lines/altura do Map.
- */
-int Map::get_lines()
+void Map::save_map(std::string file_name)
 {
-    return lines;
-}
-
-
-/** Consouthtar lines
-    Retorna:
-        @columns - Quantidade de columns/largura do Map.
- */
-int Map::get_columns()
-{
-    return columns;
-}
-
-
-/** Consouthtar altitude
-    Recebe:
-        @line1 - coordenada Y do pixel;
-        @column1 - coordenada X do pixel.
-    Retorna:
-        @altitude - altitude especifica no pixel de coordenadas recebidas.
-*/
-double Map::get_height(int line, int column)
-{
-    return heights[line][column];
-}
-
-
-/** Salva um Map em um arquivo '.txt'
-    Recebe:
-        @nome_arquivo - nome do arquivo que receberá o Map
-*/
-void Map::save_map(string file_name)
-{
-    ofstream file(file_name, ios::out | ios::trunc);
+    std::ofstream file(file_name, std::ios::out | std::ios::trunc);
 
     if(file.is_open() == false)
     {
@@ -343,14 +290,9 @@ void Map::save_map(string file_name)
     }
 }
 
-
-/** Ler um arquivo que possui um Map e armazena no Map que recebeu o método
-    Recebe:
-        @nome_arquivo - nome do arquivo que receberá o Map
-*/
-void Map::read_map(string file_name)
+void Map::read_map(std::string file_name)
 {
-    ifstream file(file_name);
+    std::ifstream file(file_name);
 
     if (file.is_open() == false)
     {
@@ -388,12 +330,8 @@ void Map::read_map(string file_name)
     }
 }
 
-
-/** Transforma o Map em uma imagem
-    Recebe:
-        @paleta - determina a cor que cada pixel vai ter com base na sua altitude
-*/
-Image Map::create_image(Palette palette)
+// Image
+Image Map::generate_image(Palette palette)
 {
     Image image(lines, columns);
 
@@ -404,7 +342,6 @@ Image Map::create_image(Palette palette)
             Color color = palette.get_color(heights[i][j]);
 
             // Sombreamento
-            double shade_factor = 0.7;
             bool is_sun_visible = true;
             int line = i;
             int column = j;
@@ -423,9 +360,9 @@ Image Map::create_image(Palette palette)
 
             if (is_sun_visible == false)
             {
-                color.r = (int) color.r * shade_factor;
-                color.g = (int) color.g * shade_factor;
-                color.b = (int) color.b * shade_factor;
+                color.r = (int) color.r * effects.shade_factor;
+                color.g = (int) color.g * effects.shade_factor;
+                color.b = (int) color.b * effects.shade_factor;
         
             }
 
@@ -435,21 +372,6 @@ Image Map::create_image(Palette palette)
     }
 
     return image;
-}
-
-
-/** Gera um número inteiro aleatório no intervalo definido
-    Recebe:
-        @inicio_intervalo - inicío do intervalo
-        @fim_intervalo - fim do intervalo
-*/
-int random(int begin_range, int end_range)
-{
-    static random_device rd;
-    static mt19937 gen(rd());
-    uniform_int_distribution<> distrib(begin_range, end_range);
-    return distrib(gen);
-    return distrib(gen);
 }
 
 

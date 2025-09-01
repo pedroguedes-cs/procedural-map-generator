@@ -16,30 +16,29 @@ struct Effects
 
 class Map
 {
-    int lines;
-    int columns;
-    double **heights;
-    Effects effects;
+    private:
+        int lines;
+        int columns;
+        double **heights;
+        Effects effects;
+        int valid_size;
 
-    void diamond(int side_length, int displacement); /** Etapa Diamond */
-    void square(int side_length, int displacement); /** Etapa Square */
-    
-    public:
-        Map(); /** Construtor default, Matriz tem tamanho (2^gerador) + 1 */
-        Map(int generator, double roughness); /**Construtor parametrizado */
-        ~Map(); /** Destrutor */
-
-
-        void generate_map(double roughness); /**Gerar mapa de altitudes */
-
-        int get_lines(); /** Consultar numero de linhas */
-        int get_columns(); /** Consultar numero de colunas */
-        double get_height(int line, int column); /** Consultar altitude */
-
-        void save_map(std::string file_name); /** Salvar dimensões e altitudes em um arquivo */
-        void read_map(std::string file_name); /** Se houver matriz alocada, desalocar a matriz e alocar outra com as informações do arquivo */  
+        void diamond(int square_side_length, int displacement); 
+        void square(int square_side_length, int displacement); 
         
-        Image create_image(Palette palette) /** Gera uma imagem a partir de um terreno */;
+    public:
+        Map(); 
+        Map(int lines, int columns, Effects effects); 
+        ~Map();
+
+        int get_lines();
+        int get_columns(); 
+        double get_pixel_height(int line, int column); 
+
+        void generate_map_terrain(); 
+        void save_map(std::string file_name); 
+        void read_map(std::string file_name);
+        
+        Image generate_image(Palette palette);
 };
 
-int random(int begin_range, int end_range); /** Gera um numero aleatório */
