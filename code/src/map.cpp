@@ -188,7 +188,7 @@ void Map::set_active(bool status)
     active = status;
 }
 
-void Map::set_valid_size(int lines, int columns)
+void Map::set_valid_size()
 {
     valid_size = next_valid_size(std::max(lines, columns));
 }
@@ -280,7 +280,7 @@ void Map::square(int side_length, int displacement)
 
             if (heights[south.line][south.column] < 0)
             {
-                if (south.line == (lines - 1))
+                if (south.line == (valid_size - 1))
                 {
                     sum = heights[corner3.line][corner3.column] + heights[corner4.line][corner4.column] + heights[mid.line][mid.column];
                     heights[south.line][south.column] = (sum / 3) + random_displacement;
@@ -303,7 +303,7 @@ void Map::square(int side_length, int displacement)
 
             if (heights[east.line][east.column] < 0)
             {
-                if (east.column == (columns - 1))
+                if (east.column == (valid_size - 1))
                 {
                     sum = heights[corner2.line][corner2.column] + heights[corner4.line][corner4.column] + heights[mid.line][mid.column];
                     heights[east.line][east.column] = (sum / 3) + random_displacement;
@@ -385,7 +385,7 @@ void Map::save_map(std::string file_name)
     }
     else
     {
-        file << lines << " " << columns << endl;
+        file << lines << " " << columns << std::endl;
     }
 
     for(int i = 0; i < lines; i++)
@@ -394,7 +394,7 @@ void Map::save_map(std::string file_name)
         {
             file << heights[i][j] << " ";
         }
-        file << endl;
+        file << std::endl;
     }
 }
 
@@ -468,9 +468,9 @@ Image Map::generate_image(Palette palette)
 
             if (is_sun_visible == false)
             {
-                color.r = (int) color.r * effects.shade_factor;
-                color.g = (int) color.g * effects.shade_factor;
-                color.b = (int) color.b * effects.shade_factor;
+                color.r = (int) color.r * shade_factor;
+                color.g = (int) color.g * shade_factor;
+                color.b = (int) color.b * shade_factor;
         
             }
 

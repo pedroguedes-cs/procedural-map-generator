@@ -107,8 +107,8 @@ Map read_map()
 {
     int lines = read_lines();
     int columns = read_columns();
-    int roughness = read_roughness();
-    int shade = read_shade();
+    double roughness = read_roughness();
+    double shade = read_shade();
 
     return {lines, columns, roughness, shade};
 }

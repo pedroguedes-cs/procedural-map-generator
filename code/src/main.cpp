@@ -12,20 +12,34 @@
 #include "../include/point.hpp"
 #include "../include/style.hpp"
 
+struct Filename
+{
+    std::string folder;
+    int number;
+    std::string type;
+};
+
 
 int main()
 {  
+    // Classes
     Map map;
     Palette palette;
-    palette.load_from_file("../../palettes/earthy.txt");
+    palette.load_from_file("palettes/earthy.txt");
+    Filename filename = {"images/image", 1, ".ppm"};
+    
+    // Variables
     bool exit = false;
+    int choice;
+    int palette_choice;
+
 
     title("PROCEDURAL MAP GENERATOR");
 
     while (true)
     {
         print_menu();
-        int choice = read_choice();
+        choice = read_choice();
 
         print_line();
 
@@ -35,33 +49,36 @@ int main()
                 subtitle("MAP:");
                 map.free_map();
                 map = read_map();
+                map.set_valid_size();
+                map.alocate_map();
                 map.set_active(true);
                 map.set_terrain_generated(false);
                 saved();
+                break;
 
             case 2:
                 print_palette_menu();
-                int palette_choice = read_palette_choice();
+                palette_choice = read_palette_choice();
                 
                 switch(palette_choice)
                 {
                     case 1: 
-                        palette.load_from_file("../../palettes/earthy.txt");
+                        palette.load_from_file("palettes/earthy.txt");
                         break;
                     case 2: 
-                        palette.load_from_file("../../palettes/hot.txt");
+                        palette.load_from_file("palettes/hot.txt");
                         break;
                     case 3:
-                        palette.load_from_file("../../palettes/cold.txt");
+                        palette.load_from_file("palettes/cold.txt");
                         break;
                     case 4:
-                        palette.load_from_file("../../palettes/grey.txt");
+                        palette.load_from_file("palettes/grey.txt");
                         break;
                     case 5:
-                        palette.load_from_file("../../palettes/neon.txt");
+                        palette.load_from_file("palettes/neon.txt");
                         break;
                     case 6:
-                        palette.load_from_file("../../palettes/pastel.txt");
+                        palette.load_from_file("palettes/pastel.txt");
                         break;
                 }
                 saved();
@@ -87,7 +104,7 @@ int main()
             case 5:
                 if (map.get_active() && map.get_terrain_generated())
                 {
-                    map.generate_image(palette);
+                    (map.generate_image(palette)).save_image(filename.folder + std::to_string(filename.number) + filename.type);
                     image_generated();
                 }
                 else
@@ -101,6 +118,8 @@ int main()
                 exiting();
                 break;
         }
+
+        print_line();
 
         if (exit)
         {

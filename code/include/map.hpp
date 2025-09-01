@@ -44,7 +44,7 @@ class Map
         void set_shade_factor(double shade);
         void set_active(bool status);
         void set_terrain_generated(bool status);
-        void set_valid_size(int lines, int columns);
+        void set_valid_size();
 
         void generate_map_terrain(); 
         void save_map(std::string file_name); 

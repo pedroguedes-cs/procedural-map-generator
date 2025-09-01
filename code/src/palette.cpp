@@ -1,5 +1,8 @@
-#include "../include/palette.hpp"
+#include <iostream>
 #include <fstream>
+
+#include "../include/palette.hpp"
+
 
 using namespace std;
 
@@ -16,6 +19,11 @@ Palette::Palette(int quantity, vector<Color> colors, vector<double> values)
     this->quantity = quantity;
     this->colors = colors;
     this->values = values;
+}
+
+string Palette::get_name()
+{
+    return name;
 }
 
 int Palette::get_quantity() 
@@ -57,6 +65,8 @@ void Palette::load_from_file(string file_name)
 
     if (file.is_open() == false)
     {
+        cout << "\nFailed to read palette file.\n"; 
+
         return;
     }
     else
@@ -72,6 +82,8 @@ void Palette::load_from_file(string file_name)
             values.push_back(color_value);
             colors.push_back({r, g, b});
         }
+
+        cout << "\nPalette loaded successfully.\n"; 
     }
 }
 
