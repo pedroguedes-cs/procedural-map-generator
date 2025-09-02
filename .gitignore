@@ -16,6 +16,7 @@
 !hot.ppm
 !neon.ppm
 !pastel.ppm
+!*.png
 
 # Ignore VS Code settings
 .vscode/
