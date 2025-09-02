@@ -21,7 +21,7 @@ The current version focuses on refactoring and adding new features.
 - [x] Refactor and improve existing codebase 
 - [x] Add **menu** for user customization  
 - [ ] Add **build instructions**  
-- [ ] Add **photos/** folder with example generated maps  
+- [x] Add **photos/** folder with example generated maps  
 
 ---
 
