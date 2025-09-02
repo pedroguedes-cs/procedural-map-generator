@@ -27,7 +27,7 @@ Image::Image(int height, int width)
 
 Image::~Image()
 {
-    for (int i = 0; i < width; i++)
+    for (int i = 0; i < height; i++)
     {
         delete[] bitmap[i];
     }
