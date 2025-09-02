@@ -3,41 +3,117 @@
 
 #include "../include/input.hpp"
 
+std::string normalize_float(std::string number)
+{
+    // Exchange ',' -> '.'
+    for (char &c : number)
+    {
+        if (c == ',')
+        {
+            c = '.';
+        }
+    }
+
+    return number;
+}
+
+bool is_integer(std::string number)
+{
+    if (number.empty())
+    {
+        return false;
+    }
+
+    if (number == "+" || number == "-")
+    {
+        return false;
+    }
+
+    for (auto i = number.begin(); i < number.end(); i++)
+    {
+        if ((*i == '+' || *i == '-') && i != number.begin())
+        {
+            return false;
+        }
+
+        if (*i != '-' && *i != '+' && (*i < '0' || *i > '9'))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool is_float(std::string number)
+{
+    if (number.empty())
+    {
+        return false;
+    }
+
+    if (number == "+" || number == "-" || number == ".")
+    {
+        return false;
+    }
+
+    int counter_dots = 0;
+
+    for (auto i = number.begin(); i < number.end(); i++)
+    {
+        if ((*i == '+' || *i == '-') && i != number.begin())
+        {
+            return false;
+        }
+
+        else if (*i == '.')
+        {
+            if (counter_dots >= 1)
+            {
+                return false;
+            }
+
+            counter_dots++;
+        }
+
+        else if (*i != '-' && *i != '+' && (*i < '0' || *i > '9'))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 int read_choice()
 {
-    int choice;
+    std::string choice;
 
     while (true)
     {
         std::cout << "\nEnter your choice (1-6): ";
 
-        if (std::cin >> choice && choice >= 1 && choice <= 6)
+        if (getline(std::cin,choice) && is_integer(choice) && stoi(choice) >= 1 && stoi(choice) <= 6)
         {
-            return choice;
+            return stoi(choice);
         }
-    
-        std::cin.clear(); // Clear fail state
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
 
-        std::cout << "[Invalid input] Please enter a number between 1 and 6.\n";
+        std::cout << "[Invalid input] Please enter a integer number between 1 and 6.\n";
     }
 }
 
 int read_lines()
 {
-    int lines;
+    std::string lines;
 
     while (true)
     {
-        std::cout << "Lines: ";
+        std::cout << "\nLines: ";
 
-        if (std::cin >> lines && lines >= 1)
+        if (getline(std::cin, lines) && is_integer(lines) && stoi(lines) >= 1)
         {
-            return lines;
+            return stoi(lines);
         }
-    
-        std::cin.clear(); // Clear fail state
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
 
         std::cout << "[Invalid input] Please enter a positive integer value.\n";
     }
@@ -45,19 +121,16 @@ int read_lines()
 
 int read_columns()
 {
-    int columns;
+    std::string columns;
 
     while (true)
     {
-        std::cout << "Columns: ";
+        std::cout << "\nColumns: ";
 
-        if (std::cin >> columns && columns >= 1)
+        if (getline(std::cin, columns) && is_integer(columns) && stoi(columns) >= 1)
         {
-            return columns;
+            return stoi(columns);
         }
-    
-        std::cin.clear(); // Clear fail state
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
 
         std::cout << "[Invalid input] Please enter a positive integer value.\n";
     }
@@ -65,41 +138,35 @@ int read_columns()
 
 float read_shade()
 {
-    float shade;
+    std::string shade;
 
     while (true)
     {
-        std::cout << "Shade factor: ";
+        std::cout << "\nShade factor: ";
 
-        if (std::cin >> shade && shade >= 0 && shade <= 1)
+        if (getline(std::cin, shade) && is_float(normalize_float(shade)) && stof(normalize_float(shade)) >= 0 && stof(normalize_float(shade)) <= 1)
         {
-            return shade;
+            return stof(normalize_float(shade));
         }
-    
-        std::cin.clear(); // Clear fail state
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
 
-        std::cout << "[Invalid input] Please enter a decimal floating-point number between 0 and 1.\n";
+        std::cout << "[Invalid input] Please enter a decimal floating-point number between 0 and 1. (ex: 0.75)\n";
     }
 }
 
 float read_roughness()
 {
-    float roughness;
+    std::string roughness;
 
     while (true)
     {
-        std::cout << "Roughness factor: ";
+        std::cout << "\nRoughness factor: ";
 
-        if (std::cin >> roughness && roughness >= 0 && roughness <= 1)
+        if (getline(std::cin, roughness) && is_float(normalize_float(roughness)) && stof(normalize_float(roughness)) >= 0 && stof(normalize_float(roughness)) <= 1)
         {
-            return roughness;
+            return stof(normalize_float(roughness));
         }
-    
-        std::cin.clear(); // Clear fail state
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
 
-        std::cout << "[Invalid input] Please enter a decimal floating-point number between 0 and 1.\n";
+        std::cout << "[Invalid input] Please enter a decimal floating-point number between 0 and 1. (ex: 0.75)\n";
     }
 }
 
@@ -115,20 +182,17 @@ Map read_map()
 
 int read_palette_choice()
 {
-    int choice;
+    std::string choice;
 
     while (true)
     {
-        std::cout << "\nEnter your choice (1-6): ";
+        std::cout << "\nChoose a palette (1-6): ";
 
-        if (std::cin >> choice && choice >= 1 && choice <= 6)
+        if (getline(std::cin,choice) && is_integer(choice) && stoi(choice) >= 1 && stoi(choice) <= 6)
         {
-            return choice;
+            return stoi(choice);
         }
-    
-        std::cin.clear(); // Clear fail state
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
 
-        std::cout << "[Invalid input] Please enter a number between 1 and 6.\n";
+        std::cout << "[Invalid input] Please enter a integer number between 1 and 6.\n";
     }
 }

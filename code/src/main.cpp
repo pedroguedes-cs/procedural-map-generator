@@ -93,7 +93,7 @@ int main()
                 {
                     map.generate_map_terrain();
                     map.set_terrain_generated(true);
-                    saved();
+                    terrain_generated();
                 }
                 else
                 {

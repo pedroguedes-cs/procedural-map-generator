@@ -4,6 +4,12 @@
 
 #include "map.hpp"
 
+std::string normalize_float(std::string number);
+
+bool is_integer(std::string number);
+
+bool is_float(std::string number);
+
 int read_choice();
 
 int read_lines();

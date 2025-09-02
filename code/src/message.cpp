@@ -4,12 +4,17 @@
 
 void saved()
 {
-    std::cout << "\nYour changes were saved.\n";
+    std::cout << "\nYour changes were saved!\n";
+}
+
+void terrain_generated()
+{
+    std::cout << "\nMap terrain successfully generated!\n";
 }
 
 void image_generated()
 {
-    std::cout << "Your image has been created.\n";
+    std::cout << "Your image has been created!\n";
 }
 
 void set_first()
