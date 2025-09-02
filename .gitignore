@@ -9,6 +9,14 @@
 !*.txt
 !.gitignore
 
+# Images example
+!cold.ppm
+!earthy.ppm
+!grey.ppm
+!hot.ppm
+!neon.ppm
+!pastel.ppm
+
 # Ignore VS Code settings
 .vscode/
 
