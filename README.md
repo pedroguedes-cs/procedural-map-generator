@@ -10,7 +10,7 @@ The program generates a **PPM image** representing the terrain, where each pixel
 ![Earthy](assets/examples/preview/earthy.png)
 ![Hot](assets/examples/preview/hot.png)
 ![COld](assets/examples/preview/cold.png)
-![Gray](assets/examples/preview/gray.png)
+![Grey](assets/examples/preview/grey.png)
 ![Neon](assets/examples/preview/neon.png)
 ![Pastel](assets/examples/preview/pastel.png)
 
