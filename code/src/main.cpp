@@ -26,7 +26,7 @@ int main()
     Map map;
     Palette palette;
     palette.load_from_file("palettes/earthy.txt");
-    Filename filename = {"images/image", 1, ".ppm"};
+    Filename filename = {"output/image", 1, ".ppm"};
     
     // Variables
     bool exit = false;
