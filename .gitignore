@@ -24,6 +24,6 @@
 # Ignore build directory
 /build/
 
-# Keep output folder
-!output/
+# Keep output folder, but empty
+output/*
 !output/.gitkeep
