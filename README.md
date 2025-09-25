@@ -12,8 +12,7 @@ The program generates a **PPM image** representing the terrain, where each pixel
 - Output saved as a **PPM image**.
 
 ## 🕑 Project History
-This project is a continuation of a previous assignment developed in the course *Introduction to Programming Techniques*.  
-The current version focuses on refactoring and adding new features.
+This project is a continuation of a previous assignment developed in the course *Introduction to Programming Techniques*. The current version focuses on refactoring and adding new features.
 
 ## ⚙️ Build & Run
 
