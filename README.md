@@ -8,6 +8,8 @@ The program generates a **PPM image** representing the terrain, where each pixel
 ## ▶️ Watch the Demo
 [![Procedural Map Generator - Demo](assets/thumbnail.png)](https://youtu.be/ZRfbxiADyK0)
 
+---
+
 ## 🗺️ Examples
 ![Earthy](assets/examples/preview/earthy.png)
 ![Hot](assets/examples/preview/hot.png)
